@@ -5,9 +5,8 @@ import {
 	LinkProps as RouterLinkProps,
 } from 'react-router-dom'
 
+import { colors } from '@mui/material'
 import { createTheme } from '@mui/material/styles'
-
-import { COLORS } from './ts/utils/constants'
 
 // Allow adapting MUI links to react-router-dom links
 const LinkBehavior = React.forwardRef<
@@ -23,10 +22,14 @@ LinkBehavior.displayName = 'LinkBehavior'
 const theme = createTheme({
 	palette: {
 		primary: {
-			main: COLORS.green,
+			main: '#d84315',
+			light: '#ff7543',
+			dark: '#9f0000',
 		},
 		secondary: {
-			main: COLORS.pink,
+			main: '#ffb300',
+			light: '#ffe54c',
+			dark: '#c68400',
 		},
 	},
 	components: {
@@ -44,13 +47,13 @@ const theme = createTheme({
 	},
 	typography: {
 		h1: {
-			color: COLORS.green,
+			color: colors.deepOrange[800],
 			fontSize: '2.5rem',
 			fontWeight: '500',
 			marginTop: '1.5rem',
 		},
 		h2: {
-			color: COLORS.green,
+			color: colors.deepOrange[800],
 			fontSize: '1.5rem',
 			fontWeight: '500',
 			marginTop: '1.5rem',
