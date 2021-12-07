@@ -1,15 +1,17 @@
 import React from 'react'
 
-import HeaderBar from 'ts/components/HeaderBar'
+import { useParams } from 'react-router-dom'
 
 import { Container, Typography } from '@mui/material'
 
 export default function BookDetail(): React.ReactElement {
+	const urlParams = useParams<{ id: string }>()
+
 	return (
 		<>
-			<HeaderBar />
 			<Container>
-				<Typography variant='h1'>Book 1</Typography>
+				<Typography variant='h1'>Recipes</Typography>
+				<Typography variant='body1'>Book ID: {urlParams.id}</Typography>
 			</Container>
 		</>
 	)

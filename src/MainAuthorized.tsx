@@ -6,13 +6,14 @@ import {
 	Route,
 	Switch,
 } from 'react-router-dom'
+import HeaderBar from 'ts/components/HeaderBar'
 import BookDetail from 'ts/containers/BookDetail'
 import Home from 'ts/containers/Home'
 import { getUser } from 'ts/services/user'
 import { User } from 'ts/utils/models'
 import Paths from 'ts/utils/paths'
 
-import { Box } from '@mui/system'
+import { Stack } from '@mui/material'
 
 export let UserContext: Context<{ user: User; updateUser: () => void }>
 
@@ -28,8 +29,9 @@ function MainAuthorized(props: { user: User }): React.ReactElement {
 
 	return (
 		<UserContext.Provider value={{ user, updateUser }}>
-			<Box sx={{ height: '100vh' }}>
-				<Router basename='/'>
+			<Router basename='/'>
+				<Stack height='100%'>
+					<HeaderBar />
 					<Switch>
 						<Route exact path={Paths.home} component={Home} />
 						<Route exact path={Paths.bookDetail} component={BookDetail} />
@@ -39,8 +41,8 @@ function MainAuthorized(props: { user: User }): React.ReactElement {
 							<Redirect to={Paths.home} />
 						</Route>
 					</Switch>
-				</Router>
-			</Box>
+				</Stack>
+			</Router>
 		</UserContext.Provider>
 	)
 }

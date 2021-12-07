@@ -4,6 +4,7 @@ import { signOut } from 'ts/services/auth'
 
 import {
 	AppBar,
+	Button,
 	Icon,
 	IconButton,
 	Menu,
@@ -12,18 +13,11 @@ import {
 	Typography,
 } from '@mui/material'
 
-import Navigation from './Navigation'
-
 export default function HeaderBar(props: {
 	noborder?: boolean
 }): React.ReactElement {
 	const { noborder } = props
 	const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
-	const [showNav, setShowNav] = useState(false)
-
-	function toggleNav(): void {
-		setShowNav(p => !p)
-	}
 
 	const showMenu = (event: React.MouseEvent<HTMLButtonElement>): void =>
 		setMenuAnchor(event.currentTarget)
@@ -38,18 +32,18 @@ export default function HeaderBar(props: {
 				sx={{ borderBottom: noborder ? 0 : 1, borderColor: 'divider' }}
 			>
 				<Toolbar>
-					<IconButton
-						size='large'
-						edge='start'
-						color='inherit'
-						sx={{ mr: 2 }}
-						onClick={toggleNav}
-					>
-						<Icon>menu</Icon>
+					<IconButton size='large' color='inherit'>
+						<Icon>arrow_back</Icon>
 					</IconButton>
-					<Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-						Recipe Book
-					</Typography>
+
+					<Button sx={{ margin: 'auto' }}>
+						<Typography variant='h6' component='div'>
+							DeSpain Recipe Book
+						</Typography>
+						<Icon color='inherit' sx={{ marginLeft: 1 }}>
+							arrow_drop_down
+						</Icon>
+					</Button>
 
 					<div>
 						<IconButton size='large' onClick={showMenu} color='inherit'>
@@ -70,12 +64,12 @@ export default function HeaderBar(props: {
 							keepMounted
 						>
 							<MenuItem onClick={closeMenu}>Profile</MenuItem>
+							<MenuItem onClick={closeMenu}>Shared</MenuItem>
 							<MenuItem onClick={signOut}>Sign Out</MenuItem>
 						</Menu>
 					</div>
 				</Toolbar>
 			</AppBar>
-			<Navigation open={showNav} toggleOpen={toggleNav} />
 		</>
 	)
 }
