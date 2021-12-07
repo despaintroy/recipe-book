@@ -22,14 +22,10 @@ LinkBehavior.displayName = 'LinkBehavior'
 const theme = createTheme({
 	palette: {
 		primary: {
-			main: '#d84315',
-			light: '#ff7543',
-			dark: '#9f0000',
+			main: colors.deepOrange[800],
 		},
 		secondary: {
 			main: '#ffb300',
-			light: '#ffe54c',
-			dark: '#c68400',
 		},
 	},
 	components: {
@@ -42,6 +38,22 @@ const theme = createTheme({
 		MuiButtonBase: {
 			defaultProps: {
 				LinkComponent: LinkBehavior,
+			},
+		},
+		MuiAppBar: {
+			styleOverrides: {
+				colorPrimary: {
+					backgroundColor: colors.grey[50],
+					color: colors.deepOrange[800],
+				},
+			},
+		},
+		MuiListItemButton: {
+			styleOverrides: {
+				root: {
+					borderRadius: 5,
+					margin: '0.5rem',
+				},
 			},
 		},
 	},
