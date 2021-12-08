@@ -25,7 +25,7 @@ const theme = createTheme({
 			main: colors.deepOrange[800],
 		},
 		secondary: {
-			main: '#ffb300',
+			main: colors.amber[600],
 		},
 	},
 	components: {

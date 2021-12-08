@@ -1,6 +1,12 @@
 import React, { useState } from 'react'
 
+import {
+	useHistory,
+	useLocation,
+} from 'react-router'
+import { matchPath } from 'react-router-dom'
 import { signOut } from 'ts/services/auth'
+import Paths from 'ts/utils/paths'
 
 import {
 	AppBar,
@@ -18,6 +24,14 @@ export default function HeaderBar(props: {
 }): React.ReactElement {
 	const { noborder } = props
 	const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
+	const location = useLocation()
+	const history = useHistory()
+
+	const routerMatch = matchPath(location.pathname, {
+		path: Paths.home,
+		exact: true,
+		strict: false,
+	})
 
 	const showMenu = (event: React.MouseEvent<HTMLButtonElement>): void =>
 		setMenuAnchor(event.currentTarget)
@@ -32,13 +46,17 @@ export default function HeaderBar(props: {
 				sx={{ borderBottom: noborder ? 0 : 1, borderColor: 'divider' }}
 			>
 				<Toolbar>
-					<IconButton size='large' color='inherit'>
-						<Icon>arrow_back</Icon>
+					<IconButton
+						size='large'
+						color='inherit'
+						onClick={(): void => history.goBack()}
+					>
+						<Icon>{!routerMatch && 'arrow_back'}</Icon>
 					</IconButton>
 
 					<Button sx={{ margin: 'auto' }}>
 						<Typography variant='h6' component='div'>
-							DeSpain Recipe Book
+							Book 1
 						</Typography>
 						<Icon color='inherit' sx={{ marginLeft: 1 }}>
 							arrow_drop_down

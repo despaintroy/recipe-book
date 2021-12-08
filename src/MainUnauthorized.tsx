@@ -1,14 +1,32 @@
 import React from 'react'
 
-import { Container, Typography } from '@mui/material'
+import {
+	BrowserRouter as Router,
+	Redirect,
+	Route,
+	Switch,
+} from 'react-router-dom'
+import SignIn from 'ts/containers/SignIn'
+import SignUp from 'ts/containers/SignUp'
+import Paths from 'ts/utils/paths'
+
+import { Box } from '@mui/system'
 
 function MainUnauthorized(): React.ReactElement {
 	return (
-		<div className='App'>
-			<Container>
-				<Typography variant='h1'>Unauthorized</Typography>
-			</Container>
-		</div>
+		<Box className='App'>
+			<Router basename='/'>
+				<Switch>
+					<Route exact path={Paths.signIn} component={SignIn} />
+					<Route exact path={Paths.signUp} component={SignUp} />
+
+					{/* Default redirect */}
+					<Route path='/'>
+						<Redirect to={Paths.signIn} />
+					</Route>
+				</Switch>
+			</Router>
+		</Box>
 	)
 }
 

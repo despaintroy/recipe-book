@@ -5,6 +5,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 import MainAuthorized from 'MainAuthorized'
+import MainUnauthorized from 'MainUnauthorized'
 import theme from 'theme'
 import { auth } from 'ts/services/auth'
 import { formatUser } from 'ts/services/user'
@@ -22,8 +23,7 @@ function App(): React.ReactElement {
 		})
 	}, [])
 
-	// return user ? <MainAuthorized user={user} /> : <MainUnauthorized />
-	return <MainAuthorized user={user as User} />
+	return user ? <MainAuthorized user={user} /> : <MainUnauthorized />
 }
 
 ReactDOM.render(
