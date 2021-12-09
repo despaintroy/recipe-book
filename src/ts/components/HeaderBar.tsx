@@ -1,10 +1,7 @@
 import React, { useState } from 'react'
 
-import {
-	useHistory,
-	useLocation,
-} from 'react-router'
-import { matchPath } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router'
+import { Link, matchPath } from 'react-router-dom'
 import { signOut } from 'ts/services/auth'
 import Paths from 'ts/utils/paths'
 
@@ -81,7 +78,9 @@ export default function HeaderBar(props: {
 							onClose={closeMenu}
 							keepMounted
 						>
-							<MenuItem onClick={closeMenu}>Profile</MenuItem>
+							<MenuItem component={Link} to={Paths.account} onClick={closeMenu}>
+								Account
+							</MenuItem>
 							<MenuItem onClick={closeMenu}>Shared</MenuItem>
 							<MenuItem onClick={signOut}>Sign Out</MenuItem>
 						</Menu>

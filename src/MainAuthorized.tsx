@@ -7,6 +7,7 @@ import {
 	Switch,
 } from 'react-router-dom'
 import HeaderBar from 'ts/components/HeaderBar'
+import Account from 'ts/containers/Account'
 import BookDetail from 'ts/containers/BookDetail'
 import Home from 'ts/containers/Home'
 import { getUser } from 'ts/services/user'
@@ -35,6 +36,7 @@ function MainAuthorized(props: { user: User }): React.ReactElement {
 					<Switch>
 						<Route exact path={Paths.home} component={Home} />
 						<Route exact path={Paths.bookDetail} component={BookDetail} />
+						<Route exact path={Paths.account} component={Account} />
 
 						{/* Default redirect */}
 						<Route path='/'>

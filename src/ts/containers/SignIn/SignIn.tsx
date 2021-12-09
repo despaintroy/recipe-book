@@ -8,6 +8,7 @@ import { Avatar, Box, Container, Paper, Typography } from '@mui/material'
 export default function SignIn(): React.ReactElement {
 	return (
 		<Container
+			maxWidth={false}
 			sx={{
 				position: 'fixed',
 				top: 0,

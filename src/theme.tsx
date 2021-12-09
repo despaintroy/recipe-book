@@ -68,7 +68,6 @@ const theme = createTheme({
 			color: colors.deepOrange[800],
 			fontSize: '1.5rem',
 			fontWeight: '500',
-			marginTop: '1.5rem',
 		},
 	},
 })
