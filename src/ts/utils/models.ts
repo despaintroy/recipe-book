@@ -19,3 +19,13 @@ export interface FormState<FieldNames extends string> {
 	formMessage: string
 	attemptedSubmit: boolean
 }
+
+export interface Recipe {
+	id: string
+	name: string
+	tags: string[]
+	directions: string[]
+	ingredients: string[]
+	image?: string
+	prepTime?: number
+}
