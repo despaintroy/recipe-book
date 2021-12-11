@@ -10,8 +10,14 @@ export default function Home(): React.ReactElement {
 		<>
 			<Container>
 				<Typography variant='h1'>Home</Typography>
-				<Button component={Link} to={Paths.getBookDetailLink('1')}>
-					Go to Book Detail
+				<Button
+					component={Link}
+					fullWidth
+					variant='contained'
+					to={Paths.getBookDetailLink('1')}
+					sx={{ mt: 2 }}
+				>
+					Import Recipe
 				</Button>
 			</Container>
 		</>
