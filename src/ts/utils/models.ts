@@ -1,9 +1,14 @@
 export interface User {
-	readonly id: string
-	readonly lastSignIn?: Date
+	id: string
+	lastSignIn?: Date
 	name: string | null | undefined
 	email: string | null | undefined
 	phone: string | null | undefined
+}
+
+export interface UserData {
+	id: string
+	bookIDs: string[]
 }
 
 export interface FormState<FieldNames extends string> {
@@ -34,4 +39,11 @@ export interface RecipeResponse {
 }
 export interface Recipe extends RecipeResponse {
 	id: string
+}
+
+export interface Book {
+	id: string
+	title: string
+	recipes: Recipe[]
+	created: number
 }
