@@ -9,7 +9,7 @@ import {
 import HeaderBar from 'ts/components/HeaderBar'
 import Account from 'ts/containers/Account'
 import BookDetail from 'ts/containers/BookDetail'
-import Home from 'ts/containers/Home'
+import BookList from 'ts/containers/BookList'
 import { getUser } from 'ts/services/user'
 import { User } from 'ts/utils/models'
 import Paths from 'ts/utils/paths'
@@ -34,7 +34,7 @@ function MainAuthorized(props: { user: User }): React.ReactElement {
 				<Stack height='100%'>
 					<HeaderBar />
 					<Switch>
-						<Route exact path={Paths.home} component={Home} />
+						<Route exact path={Paths.home} component={BookList} />
 						<Route exact path={Paths.bookDetail} component={BookDetail} />
 						<Route exact path={Paths.account} component={Account} />
 

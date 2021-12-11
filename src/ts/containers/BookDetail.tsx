@@ -29,7 +29,7 @@ export default function BookDetail(): React.ReactElement {
 	const [error, setError] = React.useState('')
 
 	return (
-		<Container>
+		<Container maxWidth='md'>
 			<Typography variant='h1'>Import Recipe</Typography>
 			{/* <Typography variant='body1'>Book ID: {urlParams.id}</Typography> */}
 			<TextField
@@ -65,7 +65,12 @@ export default function BookDetail(): React.ReactElement {
 					<Typography variant='h2' sx={{ mb: 2 }}>
 						{recipe.name}
 					</Typography>
-					<img src={recipe.image} alt={recipe.name} width={'100%'} />
+					<img
+						src={recipe.image}
+						alt={recipe.name}
+						width={'100%'}
+						style={{ maxHeight: '20rem', objectFit: 'cover' }}
+					/>
 					<p>
 						<b>Description: </b>
 						{recipe.description}
