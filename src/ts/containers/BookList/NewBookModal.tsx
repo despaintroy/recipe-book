@@ -1,5 +1,6 @@
-import React, { FormEvent, useRef } from 'react'
+import React, { FormEvent, useContext, useRef } from 'react'
 
+import { UserContext } from 'MainAuthorized'
 import { createBook } from 'ts/services/book'
 
 import {
@@ -20,6 +21,7 @@ export default function NewBookModal(props: {
 	submitCallback?: () => void
 }): React.ReactElement {
 	const { open, handleClose, submitCallback } = props
+	const user = useContext(UserContext).user
 	const input = useRef<HTMLInputElement>(null)
 	const [errorText, setErrorText] = React.useState('')
 	const [submitting, setSubmitting] = React.useState(false)
@@ -48,11 +50,13 @@ export default function NewBookModal(props: {
 				<DialogTitle>New Recipe Book</DialogTitle>
 				<DialogContent>
 					<DialogContentText>
-						To subscribe to this website, please enter your email address here.
-						We will send updates occasionally.
+						Create a new recipe book. Recipe books can optionally be shared with
+						other users.
 					</DialogContentText>
 					<TextField
 						inputRef={input}
+						defaultValue={`${user.name}'s Recipes`}
+						placeholder={`${user.name}'s Recipes`}
 						autoFocus
 						id='name'
 						label='Recipe Book Name'

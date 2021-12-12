@@ -1,9 +1,9 @@
-import { collection, doc, getDoc, setDoc } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore'
 import { Book } from 'ts/utils/models'
 
 import { database } from './firebase'
 import { getUser } from './user'
-import { addBookToUser, getUserData } from './userData'
+import { addBookToUser, getUserData, removeBookFromUser } from './userData'
 
 const bookCollection = collection(database, 'books')
 
@@ -23,7 +23,7 @@ export const createBook = async (title: string): Promise<void> => {
 
 export const getAllBooks = async (): Promise<Book[]> => {
 	const userData = await getUserData()
-	return await getBooksByIDs(userData.bookIDs)
+	return await getBooksByIDs(userData.bookIDs ?? [])
 }
 
 export const getBookByID = async (id: string): Promise<Book> => {
@@ -42,4 +42,12 @@ export const getBooksByIDs = async (bookIDs: string[]): Promise<Book[]> => {
 		)
 	)
 	return books
+}
+
+export const deleteBook = async (id: string): Promise<void> => {
+	const user = getUser()
+	if (!user) return Promise.reject()
+
+	await removeBookFromUser(id)
+	return await deleteDoc(doc(bookCollection, id))
 }

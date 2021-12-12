@@ -8,7 +8,7 @@ export interface User {
 
 export interface UserData {
 	id: string
-	bookIDs: string[]
+	bookIDs?: string[]
 }
 
 export interface FormState<FieldNames extends string> {
@@ -44,6 +44,6 @@ export interface Recipe extends RecipeResponse {
 export interface Book {
 	id: string
 	title: string
-	recipes: Recipe[]
-	created: number
+	recipes?: Recipe[]
+	created?: number
 }
