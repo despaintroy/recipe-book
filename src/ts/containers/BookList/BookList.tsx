@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Link } from 'react-router-dom'
-import { createBook, getAllBooks } from 'ts/services/book'
+import { getAllBooks } from 'ts/services/book'
 import { Book } from 'ts/utils/models'
 import Paths from 'ts/utils/paths'
 
@@ -21,12 +21,17 @@ import {
 } from '@mui/material'
 import { Box } from '@mui/system'
 
-export default function BookList(): React.ReactElement {
-	const [books, setBooks] = React.useState<Book[]>()
+import NewBookModal from './NewBookModal'
 
-	React.useEffect(() => {
+export default function BookList(): React.ReactElement {
+	const [books, setBooks] = useState<Book[]>()
+	const [showModal, setShowModal] = useState(false)
+
+	React.useEffect(() => getBooks(), [])
+
+	function getBooks(): void {
 		getAllBooks().then(setBooks)
-	}, [])
+	}
 
 	return (
 		<Container maxWidth='sm'>
@@ -78,12 +83,19 @@ export default function BookList(): React.ReactElement {
 				sx={{ mt: 2 }}
 				startIcon={<Icon>add</Icon>}
 				fullWidth
-				onClick={(): void => {
-					createBook('Default Book')
-				}}
+				onClick={(): void => setShowModal(true)}
 			>
 				Create New Book
 			</Button>
+
+			<NewBookModal
+				open={showModal}
+				handleClose={(): void => setShowModal(false)}
+				submitCallback={(): void => {
+					setBooks(undefined)
+					getBooks()
+				}}
+			/>
 		</Container>
 	)
 }

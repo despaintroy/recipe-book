@@ -35,7 +35,11 @@ export const getBookByID = async (id: string): Promise<Book> => {
 export const getBooksByIDs = async (bookIDs: string[]): Promise<Book[]> => {
 	const books: Book[] = []
 	await Promise.all(
-		bookIDs.map(bookId => getBookByID(bookId).then(book => books.push(book)))
+		bookIDs.map(bookId =>
+			getBookByID(bookId)
+				.then(book => books.push(book))
+				.catch(() => console.error('missing book id:', bookId))
+		)
 	)
 	return books
 }
