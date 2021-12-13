@@ -20,7 +20,7 @@ import { Box } from '@mui/system'
 
 import DeleteBookDialog from './DeleteBookDialog'
 
-export default function BookItem(props: {
+export default function BookListItem(props: {
 	book: Book
 	deleteCallback: () => void
 }): React.ReactElement {

@@ -4,10 +4,7 @@ import { useParams } from 'react-router-dom'
 import AddRecipeModal from 'ts/components/AddRecipeModal'
 import { getBookByID } from 'ts/services/book'
 import { addRecipe } from 'ts/services/recipe'
-import {
-	Book,
-	Recipe,
-} from 'ts/utils/models'
+import { Book, Recipe } from 'ts/utils/models'
 
 import {
 	Box,

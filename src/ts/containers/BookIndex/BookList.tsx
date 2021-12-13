@@ -5,9 +5,9 @@ import { Book } from 'ts/utils/models'
 import { CircularProgress, Divider } from '@mui/material'
 import { Box } from '@mui/system'
 
-import BookItem from './BookItem'
+import BookListItem from './BookListItem'
 
-export default function BookListItems(props: {
+export default function BookList(props: {
 	books: Book[] | undefined
 	refreshBooks: () => void
 }): React.ReactElement {
@@ -27,7 +27,7 @@ export default function BookListItems(props: {
 		<Box>
 			<Divider />
 			{books.map(book => (
-				<BookItem book={book} key={book.id} deleteCallback={refreshBooks} />
+				<BookListItem book={book} key={book.id} deleteCallback={refreshBooks} />
 			))}
 		</Box>
 	)

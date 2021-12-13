@@ -5,10 +5,10 @@ import { Book } from 'ts/utils/models'
 
 import { Button, Container, Icon, Typography } from '@mui/material'
 
-import BookListItems from './BookListItems'
+import BookList from './BookList'
 import NewBookModal from './NewBookModal'
 
-export default function BookList(): React.ReactElement {
+export default function BookIndex(): React.ReactElement {
 	const [books, setBooks] = useState<Book[]>()
 	const [showModal, setShowModal] = useState(false)
 
@@ -24,7 +24,7 @@ export default function BookList(): React.ReactElement {
 				Recipe Books
 			</Typography>
 
-			<BookListItems books={books} refreshBooks={refreshBooks} />
+			<BookList books={books} refreshBooks={refreshBooks} />
 
 			<Button
 				variant='outlined'
