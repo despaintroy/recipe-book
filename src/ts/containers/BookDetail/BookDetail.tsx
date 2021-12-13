@@ -3,7 +3,11 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import AddRecipeModal from 'ts/components/AddRecipeModal'
 import { getBookByID } from 'ts/services/book'
-import { Book, Recipe } from 'ts/utils/models'
+import { addRecipe } from 'ts/services/recipe'
+import {
+	Book,
+	Recipe,
+} from 'ts/utils/models'
 
 import {
 	Box,
@@ -20,9 +24,7 @@ export default function BookDetail(): React.ReactElement {
 	const [book, setBook] = React.useState<Book>()
 	const [showNewRecipeModal, setShowNewRecipeModal] = React.useState(false)
 
-	useEffect(() => {
-		refreshBook()
-	}, [])
+	useEffect(() => refreshBook(), [])
 
 	function refreshBook(): void {
 		getBookByID(urlParams.id).then(setBook)
@@ -50,7 +52,9 @@ export default function BookDetail(): React.ReactElement {
 			<AddRecipeModal
 				open={showNewRecipeModal}
 				handleClose={(): void => setShowNewRecipeModal(false)}
-				onAdd={(recipe: Recipe): void => console.log(recipe)}
+				onAdd={(recipe: Recipe): void => {
+					addRecipe(book.id, recipe).then(refreshBook)
+				}}
 			/>
 		</Container>
 	)

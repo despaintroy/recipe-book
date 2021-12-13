@@ -1,4 +1,11 @@
-import { collection, deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore'
+import {
+	collection,
+	deleteDoc,
+	doc,
+	getDoc,
+	setDoc,
+	updateDoc,
+} from 'firebase/firestore'
 import { Book } from 'ts/utils/models'
 
 import { database } from './firebase'
@@ -19,6 +26,13 @@ export const createBook = async (title: string): Promise<void> => {
 		created: new Date().getTime(),
 	})
 	return await addBookToUser(docRef.id)
+}
+
+export const updateBook = async (
+	bookID: string,
+	book: Partial<Book>
+): Promise<void> => {
+	return updateDoc(doc(bookCollection, bookID), book)
 }
 
 export const getAllBooks = async (): Promise<Book[]> => {
