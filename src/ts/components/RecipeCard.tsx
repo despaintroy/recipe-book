@@ -17,6 +17,48 @@ export default function RecipeCard(props: {
 }): React.ReactElement {
 	const { recipe } = props
 
+	function Directions(): React.ReactElement {
+		if (recipe.recipeInstructions.length === 0) {
+			return (
+				<Typography variant='body1' sx={{ mt: 1 }}>
+					No directions available
+				</Typography>
+			)
+		}
+
+		if (recipe.recipeInstructions.length === 1) {
+			return (
+				<Typography variant='body1' sx={{ mt: 1 }}>
+					{recipe.recipeInstructions.join()}
+				</Typography>
+			)
+		}
+
+		return (
+			<Timeline position='right' sx={{ p: 0 }}>
+				{recipe.recipeInstructions.map((instruction: string, i) => (
+					<TimelineItem key={instruction}>
+						<TimelineOppositeContent
+							sx={{
+								flex: 0,
+								color: 'primary.main',
+								width: '2ch',
+								marginRight: 2,
+							}}
+						>
+							<b>{i + 1}</b>
+						</TimelineOppositeContent>
+						<TimelineSeparator>
+							<TimelineDot />
+							<TimelineConnector />
+						</TimelineSeparator>
+						<TimelineContent>{instruction}</TimelineContent>
+					</TimelineItem>
+				))}
+			</Timeline>
+		)
+	}
+
 	return (
 		<Card sx={{ my: 4 }}>
 			<CardMedia
@@ -71,27 +113,7 @@ export default function RecipeCard(props: {
 				<Typography variant='h2' sx={{ mt: 3 }}>
 					Directions
 				</Typography>
-				<Timeline position='right' sx={{ p: 0 }}>
-					{recipe.recipeInstructions.map((instruction: string, i) => (
-						<TimelineItem key={instruction}>
-							<TimelineOppositeContent
-								sx={{
-									flex: 0,
-									color: 'primary.main',
-									width: '2ch',
-									marginRight: 2,
-								}}
-							>
-								<b>{i + 1}</b>
-							</TimelineOppositeContent>
-							<TimelineSeparator>
-								<TimelineDot />
-								<TimelineConnector />
-							</TimelineSeparator>
-							<TimelineContent>{instruction}</TimelineContent>
-						</TimelineItem>
-					))}
-				</Timeline>
+				<Directions />
 			</CardContent>
 		</Card>
 	)

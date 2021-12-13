@@ -55,7 +55,11 @@ export default function ImportRecipe(props: {
 				color='primary'
 				disabled={submitting || !url}
 			>
-				{submitting ? <CircularProgress size={24} color='inherit' /> : 'Import'}
+				{submitting ? (
+					<CircularProgress size={24} color='inherit' />
+				) : (
+					'Get Recipe'
+				)}
 			</Button>
 
 			{recipe && <RecipeCard recipe={recipe} />}
