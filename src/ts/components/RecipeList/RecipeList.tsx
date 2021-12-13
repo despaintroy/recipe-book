@@ -4,6 +4,8 @@ import { Recipe } from 'ts/utils/models'
 
 import { Box } from '@mui/system'
 
+import RecipeListItem from './RecipeListItem'
+
 export default function RecipeList(props: {
 	recipes: Recipe[]
 }): React.ReactElement {
@@ -11,8 +13,8 @@ export default function RecipeList(props: {
 
 	return (
 		<Box>
-			{recipes.map((recipe, index) => (
-				<p key={index}>{recipe.name}</p>
+			{recipes.map(recipe => (
+				<RecipeListItem recipe={recipe} key={recipe.id} />
 			))}
 		</Box>
 	)
