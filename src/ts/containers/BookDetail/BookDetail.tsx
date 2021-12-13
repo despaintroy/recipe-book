@@ -21,7 +21,7 @@ export default function BookDetail(): React.ReactElement {
 	const [showNewRecipeModal, setShowNewRecipeModal] = React.useState(false)
 	const { book, setBook } = React.useContext(BookContext)
 
-	function refreshBook() {
+	function refreshBook(): void {
 		getBookByID(urlParams.id).then(book => setBook(book))
 	}
 

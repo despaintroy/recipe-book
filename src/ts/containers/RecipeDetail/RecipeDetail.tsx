@@ -4,7 +4,7 @@ import { BookContext } from 'MainAuthorized'
 import { useParams } from 'react-router-dom'
 import RecipeCard from 'ts/components/RecipeCard'
 
-import { Alert, Container, Typography } from '@mui/material'
+import { Alert, Container } from '@mui/material'
 
 export default function RecipeDetail(): React.ReactElement {
 	const urlParams = useParams<{ id: string }>()
@@ -13,9 +13,6 @@ export default function RecipeDetail(): React.ReactElement {
 
 	return (
 		<Container>
-			<Typography variant='h1' sx={{ mb: 3 }}>
-				{recipe?.name}
-			</Typography>
 			{recipe ? (
 				<RecipeCard recipe={recipe} />
 			) : (

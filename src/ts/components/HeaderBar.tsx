@@ -7,7 +7,6 @@ import Paths from 'ts/utils/paths'
 
 import {
 	AppBar,
-	Button,
 	Icon,
 	IconButton,
 	Menu,
@@ -51,14 +50,9 @@ export default function HeaderBar(props: {
 						<Icon>{!routerMatch && 'arrow_back'}</Icon>
 					</IconButton>
 
-					<Button sx={{ margin: 'auto' }}>
-						<Typography variant='h6' component='div'>
-							Book 1
-						</Typography>
-						<Icon color='inherit' sx={{ marginLeft: 1 }}>
-							arrow_drop_down
-						</Icon>
-					</Button>
+					<Typography variant='h6' component='div' sx={{ mx: 'auto' }}>
+						Recipes
+					</Typography>
 
 					<div>
 						<IconButton size='large' onClick={showMenu} color='inherit'>

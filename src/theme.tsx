@@ -60,13 +60,13 @@ const theme = createTheme({
 	typography: {
 		h1: {
 			color: colors.deepOrange[800],
-			fontSize: '2.5rem',
+			fontSize: '1.8rem',
 			fontWeight: '500',
 			marginTop: '1.5rem',
 		},
 		h2: {
 			color: colors.deepOrange[800],
-			fontSize: '1.5rem',
+			fontSize: '1.3rem',
 			fontWeight: '500',
 		},
 	},
