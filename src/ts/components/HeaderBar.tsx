@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
+import { UserContext } from 'MainAuthorized'
 import { useHistory, useLocation } from 'react-router'
 import { Link, matchPath } from 'react-router-dom'
 import { signOut } from 'ts/services/auth'
@@ -7,6 +8,7 @@ import Paths from 'ts/utils/paths'
 
 import {
 	AppBar,
+	Button,
 	Icon,
 	IconButton,
 	Menu,
@@ -22,6 +24,7 @@ export default function HeaderBar(props: {
 	const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
 	const location = useLocation()
 	const history = useHistory()
+	const user = useContext(UserContext).user
 
 	const routerMatch = matchPath(location.pathname, {
 		path: Paths.home,
@@ -46,18 +49,28 @@ export default function HeaderBar(props: {
 						size='large'
 						color='inherit'
 						onClick={(): void => history.goBack()}
+						sx={{ display: { xs: 'inline-block', sm: 'none' } }}
 					>
 						<Icon>{!routerMatch && 'arrow_back'}</Icon>
 					</IconButton>
 
-					<Typography variant='h6' component='div' sx={{ mx: 'auto' }}>
+					<Typography
+						variant='h6'
+						component='div'
+						sx={{ marginRight: 'auto', marginLeft: { xs: 'auto', sm: '0' } }}
+					>
 						Recipes
 					</Typography>
 
 					<div>
-						<IconButton size='large' onClick={showMenu} color='inherit'>
+						<Button onClick={showMenu} color='inherit'>
+							<Typography
+								sx={{ marginRight: 1, display: { xs: 'none', sm: 'inline' } }}
+							>
+								{user.name}
+							</Typography>
 							<Icon>account_circle</Icon>
-						</IconButton>
+						</Button>
 						<Menu
 							anchorEl={menuAnchor}
 							anchorOrigin={{
