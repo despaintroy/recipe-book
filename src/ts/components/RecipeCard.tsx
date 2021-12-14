@@ -36,7 +36,7 @@ export default function RecipeCard(props: {
 
 		return (
 			<Timeline position='right' sx={{ p: 0 }}>
-				{recipe.recipeInstructions.map((instruction: string, i) => (
+				{recipe.recipeInstructions.map((instruction: string, idx) => (
 					<TimelineItem key={instruction}>
 						<TimelineOppositeContent
 							sx={{
@@ -46,17 +46,25 @@ export default function RecipeCard(props: {
 								marginRight: 2,
 							}}
 						>
-							<b>{i + 1}</b>
+							<b>{idx + 1}</b>
 						</TimelineOppositeContent>
 						<TimelineSeparator>
 							<TimelineDot />
-							<TimelineConnector />
+							{idx < recipe.recipeInstructions.length - 1 && (
+								<TimelineConnector />
+							)}
 						</TimelineSeparator>
 						<TimelineContent>{instruction}</TimelineContent>
 					</TimelineItem>
 				))}
 			</Timeline>
 		)
+	}
+
+	function recipeTimeString(): string {
+		const prepTime = recipe.prepTime ? `${recipe.prepTime} prep` : ''
+		const cookTime = recipe.cookTime ? `${recipe.cookTime} cook` : ''
+		return [prepTime, cookTime].filter(Boolean).join(' + ')
 	}
 
 	return (
@@ -76,30 +84,28 @@ export default function RecipeCard(props: {
 					{recipe.description}
 				</Typography>
 
-				<Box sx={{ display: 'flex', mb: 2 }}>
-					<Icon sx={{ fontSize: 'inherit', my: 'auto', marginRight: 2 }}>
-						timer
-					</Icon>
-					<Box>
+				{(recipe.totalTime || recipe.prepTime || recipe.cookTime) && (
+					<Box sx={{ display: 'flex', mb: 2 }}>
+						<Icon sx={{ my: 'auto', marginRight: 2 }}>timer</Icon>
+						<Box>
+							<Typography variant='body1' fontWeight={'bold'}>
+								{recipe.totalTime}
+							</Typography>
+							<Typography variant='body2' color='GrayText'>
+								{recipeTimeString()}
+							</Typography>
+						</Box>
+					</Box>
+				)}
+
+				{recipe.recipeYield && (
+					<Box sx={{ display: 'flex', mb: 2 }}>
+						<Icon sx={{ my: 'auto', marginRight: 2 }}>restaurant</Icon>
 						<Typography variant='body1' fontWeight={'bold'}>
-							{recipe.totalTime}
-						</Typography>
-						<Typography variant='body2' color='GrayText'>
-							{[`${recipe.prepTime} prep`, `${recipe.cookTime} cook`].join(
-								' + '
-							)}
+							Makes {recipe.recipeYield}
 						</Typography>
 					</Box>
-				</Box>
-
-				<Box sx={{ display: 'flex', mb: 2 }}>
-					<Icon sx={{ fontSize: 'inherit', my: 'auto', marginRight: 2 }}>
-						restaurant
-					</Icon>
-					<Typography variant='body1' fontWeight={'bold'}>
-						Makes {recipe.recipeYield}
-					</Typography>
-				</Box>
+				)}
 
 				<Typography variant='h2' sx={{ mt: 3 }}>
 					Ingredients

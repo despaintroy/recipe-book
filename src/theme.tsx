@@ -69,6 +69,11 @@ const theme = createTheme({
 			fontSize: '1.3rem',
 			fontWeight: '500',
 		},
+		h3: {
+			color: colors.deepOrange[800],
+			fontSize: '1.1rem',
+			fontWeight: '500',
+		},
 	},
 })
 

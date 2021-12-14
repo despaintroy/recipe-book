@@ -35,7 +35,7 @@ export default function BookDetail(): React.ReactElement {
 	}
 
 	return (
-		<Container maxWidth='md'>
+		<Container>
 			<Typography variant='h1'>{book.title}</Typography>
 			<Button
 				onClick={(): void => setShowNewRecipeModal(true)}
@@ -45,7 +45,7 @@ export default function BookDetail(): React.ReactElement {
 			>
 				New Recipe
 			</Button>
-			<RecipeList recipes={book.recipes || []} />
+			<RecipeList masonry recipes={book.recipes || []} />
 			<AddRecipeModal
 				open={showNewRecipeModal}
 				handleClose={(): void => setShowNewRecipeModal(false)}

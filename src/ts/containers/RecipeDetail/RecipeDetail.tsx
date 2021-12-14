@@ -12,7 +12,7 @@ export default function RecipeDetail(): React.ReactElement {
 	const recipe = book?.recipes?.find(r => r.id === urlParams.id)
 
 	return (
-		<Container>
+		<Container maxWidth='md'>
 			{recipe ? (
 				<RecipeCard recipe={recipe} />
 			) : (
