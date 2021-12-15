@@ -14,9 +14,11 @@ export default function RecipeDetail(): React.ReactElement {
 	return (
 		<Container maxWidth='md'>
 			{recipe ? (
-				<RecipeCard recipe={recipe} />
+				<RecipeCard recipe={recipe} allowDelete />
 			) : (
-				<Alert severity='error'>Recipe not found</Alert>
+				<Alert severity='error' sx={{ mt: 2 }}>
+					Recipe not found
+				</Alert>
 			)}
 		</Container>
 	)

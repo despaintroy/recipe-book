@@ -10,3 +10,13 @@ export async function addRecipe(bookID: string, recipe: Recipe): Promise<void> {
 	const recipes = (book.recipes || []).concat(recipe)
 	return updateBook(bookID, { recipes: recipes })
 }
+
+export async function deleteRecipe(
+	bookID: string,
+	recipeID: string
+): Promise<void> {
+	const book = await getBookByID(bookID)
+	if (!book || !book.recipes) return Promise.reject()
+	const recipes = book.recipes.filter(recipe => recipe.id !== recipeID)
+	return updateBook(bookID, { recipes: recipes })
+}

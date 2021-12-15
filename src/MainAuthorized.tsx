@@ -12,6 +12,7 @@ import Account from 'ts/containers/Account'
 import BookDetail from 'ts/containers/BookDetail'
 import BookIndex from 'ts/containers/BookIndex'
 import RecipeDetail from 'ts/containers/RecipeDetail/RecipeDetail'
+import { getBookByID } from 'ts/services/book'
 import { getUser } from 'ts/services/user'
 import { Book, User } from 'ts/utils/models'
 import Paths from 'ts/utils/paths'
@@ -22,6 +23,7 @@ export let UserContext: Context<{ user: User; updateUser: () => void }>
 export let BookContext: Context<{
 	book: Book | null
 	setBook: (book: Book | null) => void
+	refreshBook: () => Promise<void>
 }>
 
 function ScrollToTop(): React.ReactElement {
@@ -43,16 +45,21 @@ function MainAuthorized(props: { user: User }): React.ReactElement {
 		newUser && setUser(newUser)
 	}
 
-	const updateBook = (book: Book | null): void => {
-		setBook(book)
+	const refreshBook = (): Promise<void> => {
+		if (!book) return Promise.resolve()
+		return getBookByID(book.id).then(setBook)
 	}
 
 	UserContext = React.createContext({ user, updateUser })
-	BookContext = React.createContext({ book: book, setBook: updateBook })
+	BookContext = React.createContext({
+		book,
+		setBook: (book: Book | null): void => setBook(book),
+		refreshBook,
+	})
 
 	return (
 		<UserContext.Provider value={{ user, updateUser }}>
-			<BookContext.Provider value={{ book, setBook }}>
+			<BookContext.Provider value={{ book, setBook, refreshBook }}>
 				<Router basename='/'>
 					<ScrollToTop />
 					<Stack height='100%'>
