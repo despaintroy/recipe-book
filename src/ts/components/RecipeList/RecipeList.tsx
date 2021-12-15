@@ -2,6 +2,7 @@ import React from 'react'
 
 import { Recipe } from 'ts/utils/models'
 
+import { Alert } from '@mui/material'
 import { Box } from '@mui/system'
 
 import RecipeListItem from './RecipeListItem'
@@ -12,6 +13,10 @@ export default function RecipeList(props: {
 	masonry?: boolean
 }): React.ReactElement {
 	const { recipes, masonry } = props
+
+	if (recipes.length === 0) {
+		return <Alert severity='info'>No recipes found.</Alert>
+	}
 
 	if (masonry) {
 		return (

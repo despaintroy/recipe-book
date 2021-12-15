@@ -13,6 +13,7 @@ import {
 	Button,
 	CircularProgress,
 	Container,
+	Icon,
 	Typography,
 } from '@mui/material'
 
@@ -25,7 +26,7 @@ export default function BookDetail(): React.ReactElement {
 		getBookByID(urlParams.id).then(book => setBook(book))
 	}
 
-	if (!book) {
+	if (!book || book.id !== urlParams.id) {
 		refreshBook()
 		return (
 			<Box sx={{ textAlign: 'center', mt: 3 }}>
@@ -37,14 +38,16 @@ export default function BookDetail(): React.ReactElement {
 	return (
 		<Container>
 			<Typography variant='h1'>{book.title}</Typography>
-			<Button
-				onClick={(): void => setShowNewRecipeModal(true)}
-				variant='contained'
-				fullWidth
-				sx={{ my: 2 }}
-			>
-				New Recipe
-			</Button>
+			<Box sx={{ textAlign: 'right' }}>
+				<Button
+					onClick={(): void => setShowNewRecipeModal(true)}
+					startIcon={<Icon>add</Icon>}
+					variant='text'
+					sx={{ my: 2 }}
+				>
+					New Recipe
+				</Button>
+			</Box>
 			<RecipeList masonry recipes={book.recipes || []} />
 			<AddRecipeModal
 				open={showNewRecipeModal}

@@ -5,16 +5,15 @@ import { Book } from 'ts/utils/models'
 import Paths from 'ts/utils/paths'
 
 import {
-	Avatar,
 	Divider,
 	Icon,
 	IconButton,
 	ListItem,
-	ListItemAvatar,
 	ListItemButton,
 	ListItemText,
 	Menu,
 	MenuItem,
+	Typography,
 } from '@mui/material'
 import { Box } from '@mui/system'
 
@@ -48,13 +47,13 @@ export default function BookListItem(props: {
 					to={Paths.getBookDetailLink(book.id)}
 					sx={{ m: 0, py: 2 }}
 				>
-					<ListItemAvatar>
+					{/* <ListItemAvatar>
 						<Avatar>
 							<Icon>book</Icon>
 						</Avatar>
-					</ListItemAvatar>
+					</ListItemAvatar> */}
 					<ListItemText
-						primary={book.title}
+						primary={<Typography variant='h3'>{book.title}</Typography>}
 						secondary={`${book.recipes?.length ?? 0} recipes`}
 					/>
 				</ListItemButton>

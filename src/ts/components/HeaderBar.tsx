@@ -54,13 +54,18 @@ export default function HeaderBar(props: {
 						<Icon>{!routerMatch && 'arrow_back'}</Icon>
 					</IconButton>
 
-					<Typography
-						variant='h6'
-						component='div'
-						sx={{ marginRight: 'auto', marginLeft: { xs: 'auto', sm: '0' } }}
+					<Button
+						component={Link}
+						to={Paths.home}
+						sx={{
+							fontSize: '1.2rem',
+							fontWeight: 'bold',
+							marginRight: 'auto',
+							marginLeft: { xs: 'auto', sm: '0' },
+						}}
 					>
 						Recipes
-					</Typography>
+					</Button>
 
 					<div>
 						<Button onClick={showMenu} color='inherit'>
@@ -88,7 +93,6 @@ export default function HeaderBar(props: {
 							<MenuItem component={Link} to={Paths.account} onClick={closeMenu}>
 								Account
 							</MenuItem>
-							<MenuItem onClick={closeMenu}>Shared</MenuItem>
 							<MenuItem onClick={signOut}>Sign Out</MenuItem>
 						</Menu>
 					</div>

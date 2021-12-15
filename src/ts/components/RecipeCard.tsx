@@ -9,7 +9,14 @@ import TimelineDot from '@mui/lab/TimelineDot'
 import TimelineItem from '@mui/lab/TimelineItem'
 import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent'
 import TimelineSeparator from '@mui/lab/TimelineSeparator'
-import { Card, CardContent, CardMedia, Icon, Typography } from '@mui/material'
+import {
+	Button,
+	Card,
+	CardContent,
+	CardMedia,
+	Icon,
+	Typography,
+} from '@mui/material'
 import { Box } from '@mui/system'
 
 export default function RecipeCard(props: {
@@ -67,6 +74,11 @@ export default function RecipeCard(props: {
 		return [prepTime, cookTime].filter(Boolean).join(' + ')
 	}
 
+	function getDomain(): string {
+		const url = new URL(recipe.url)
+		return url.hostname
+	}
+
 	return (
 		<Card sx={{ my: 4 }}>
 			<CardMedia
@@ -104,6 +116,25 @@ export default function RecipeCard(props: {
 						<Typography variant='body1' fontWeight={'bold'}>
 							Makes {recipe.recipeYield}
 						</Typography>
+					</Box>
+				)}
+
+				{recipe.url && (
+					<Box sx={{ display: 'flex', mb: 2 }}>
+						<Icon sx={{ my: 'auto', marginRight: 2 }}>open_in_new</Icon>
+						<Button
+							component='a'
+							href={recipe.url}
+							target='_blank'
+							sx={{
+								position: 'relative',
+								left: -4,
+								textTransform: 'lowercase',
+							}}
+							startIcon={<Icon fontSize='small'>link</Icon>}
+						>
+							{getDomain()}
+						</Button>
 					</Box>
 				)}
 

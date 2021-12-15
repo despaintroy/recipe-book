@@ -1,10 +1,11 @@
-import React, { Context, useState } from 'react'
+import React, { Context, useEffect, useState } from 'react'
 
 import {
 	BrowserRouter as Router,
 	Redirect,
 	Route,
 	Switch,
+	useLocation,
 } from 'react-router-dom'
 import HeaderBar from 'ts/components/HeaderBar'
 import Account from 'ts/containers/Account'
@@ -22,6 +23,16 @@ export let BookContext: Context<{
 	book: Book | null
 	setBook: (book: Book | null) => void
 }>
+
+function ScrollToTop(): React.ReactElement {
+	const { pathname } = useLocation()
+
+	useEffect(() => {
+		window.scrollTo(0, 0)
+	}, [pathname])
+
+	return <></>
+}
 
 function MainAuthorized(props: { user: User }): React.ReactElement {
 	const [user, setUser] = useState(props.user)
@@ -43,6 +54,7 @@ function MainAuthorized(props: { user: User }): React.ReactElement {
 		<UserContext.Provider value={{ user, updateUser }}>
 			<BookContext.Provider value={{ book, setBook }}>
 				<Router basename='/'>
+					<ScrollToTop />
 					<Stack height='100%'>
 						<HeaderBar />
 						<Switch>
