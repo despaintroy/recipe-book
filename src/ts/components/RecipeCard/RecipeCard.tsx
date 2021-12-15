@@ -1,9 +1,6 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 
-import { BookContext } from 'MainAuthorized'
-import { useHistory } from 'react-router-dom'
 import { Recipe } from 'ts/utils/models'
-import Paths from 'ts/utils/paths'
 
 import Timeline from '@mui/lab/Timeline'
 import TimelineConnector from '@mui/lab/TimelineConnector'
@@ -27,22 +24,10 @@ import DeleteRecipeDialog from './DeleteRecipeDialog'
 
 export default function RecipeCard(props: {
 	recipe: Recipe
-	allowDelete?: boolean
+	handleDelete?: () => Promise<void>
 }): React.ReactElement {
-	const { recipe, allowDelete } = props
-	const history = useHistory()
+	const { recipe, handleDelete } = props
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false)
-	const bookContext = useContext(BookContext)
-
-	function deleteCallback(): void {
-		const bookID = bookContext.book?.id
-		if (!bookID) {
-			history.push(Paths.home)
-			return
-		}
-		bookContext.refreshBook()
-		history.push(Paths.getBookDetailLink(bookID))
-	}
 
 	function Directions(): React.ReactElement {
 		if (recipe.recipeInstructions.length === 0) {
@@ -175,23 +160,23 @@ export default function RecipeCard(props: {
 				</CardContent>
 				<CardActions>
 					{/* <Button size='small'>Edit</Button> */}
-					{allowDelete && (
-						<Button
-							size='small'
-							onClick={(): void => setShowDeleteDialog(true)}
-						>
-							Delete
-						</Button>
+					{handleDelete && (
+						<>
+							<Button
+								size='small'
+								onClick={(): void => setShowDeleteDialog(true)}
+							>
+								Delete
+							</Button>
+							<DeleteRecipeDialog
+								open={showDeleteDialog}
+								handleClose={(): void => setShowDeleteDialog(false)}
+								handleDelete={handleDelete}
+							/>
+						</>
 					)}
 				</CardActions>
 			</Card>
-
-			<DeleteRecipeDialog
-				recipe={recipe}
-				open={showDeleteDialog}
-				handleClose={(): void => setShowDeleteDialog(false)}
-				deleteCallback={deleteCallback}
-			/>
 		</>
 	)
 }
