@@ -5,7 +5,8 @@ import { getMessage } from 'ts/services/errors'
 import { updateEmail, updateName } from 'ts/services/user'
 import { beforeSubmit, handleValueChange, validateForm } from 'ts/utils/helpers'
 
-import { Alert, Button, CircularProgress, TextField } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
+import { Alert, TextField } from '@mui/material'
 import { Box } from '@mui/system'
 
 import { getInitialFormState } from './validation'
@@ -92,19 +93,16 @@ export default function ProfileForm(): React.ReactElement {
 					{formState.formMessage || 'Form error'}
 				</Alert>
 			)}
-			<Button
+			<LoadingButton
 				type='submit'
-				disabled={submitting || !hasChanged}
+				disabled={!hasChanged}
+				loading={submitting}
 				fullWidth
 				variant='contained'
 				sx={{ mt: 2 }}
 			>
-				{submitting ? (
-					<CircularProgress size={24} color='inherit' />
-				) : (
-					'Save Changes'
-				)}
-			</Button>
+				Save Changes
+			</LoadingButton>
 		</Box>
 	)
 }

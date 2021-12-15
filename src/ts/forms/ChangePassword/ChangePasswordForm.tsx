@@ -5,7 +5,8 @@ import { getMessage } from 'ts/services/errors'
 import { updatePassword } from 'ts/services/user'
 import { beforeSubmit, handleValueChange, validateForm } from 'ts/utils/helpers'
 
-import { Alert, Button, CircularProgress, TextField } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
+import { Alert, TextField } from '@mui/material'
 import { Box } from '@mui/system'
 
 import { getInitialFormState } from './validation'
@@ -74,22 +75,16 @@ export default function ChangePasswordForm(): React.ReactElement {
 					{formState.formMessage || 'Form error'}
 				</Alert>
 			)}
-			<Button
+			<LoadingButton
 				type='submit'
-				disabled={
-					submitting ||
-					!(formState.values.password1 && formState.values.password2)
-				}
+				disabled={!(formState.values.password1 && formState.values.password2)}
+				loading={submitting}
 				fullWidth
 				variant='contained'
 				sx={{ mt: 2 }}
 			>
-				{submitting ? (
-					<CircularProgress size={24} color='inherit' />
-				) : (
-					'Change Password'
-				)}
-			</Button>
+				Change Password
+			</LoadingButton>
 		</Box>
 	)
 }

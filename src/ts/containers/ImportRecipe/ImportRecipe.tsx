@@ -4,13 +4,8 @@ import RecipeCard from 'ts/components/RecipeCard'
 import { scrapeRecipe } from 'ts/services/recipeScrape'
 import { Recipe } from 'ts/utils/models'
 
-import {
-	Alert,
-	Button,
-	CircularProgress,
-	TextField,
-	Typography,
-} from '@mui/material'
+import { LoadingButton } from '@mui/lab'
+import { Alert, TextField, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 
 export default function ImportRecipe(props: {
@@ -40,7 +35,7 @@ export default function ImportRecipe(props: {
 					{error}
 				</Alert>
 			)}
-			<Button
+			<LoadingButton
 				onClick={(): void => {
 					setError('')
 					setRecipe(null)
@@ -53,14 +48,11 @@ export default function ImportRecipe(props: {
 				fullWidth
 				variant='contained'
 				color='primary'
-				disabled={submitting || !url}
+				loading={submitting}
+				disabled={!url}
 			>
-				{submitting ? (
-					<CircularProgress size={24} color='inherit' />
-				) : (
-					'Get Recipe'
-				)}
-			</Button>
+				Get Recipe
+			</LoadingButton>
 
 			{recipe && <RecipeCard recipe={recipe} />}
 		</Box>

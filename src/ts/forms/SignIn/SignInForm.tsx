@@ -5,14 +5,8 @@ import { getMessage } from 'ts/services/errors'
 import { beforeSubmit, handleValueChange, validateForm } from 'ts/utils/helpers'
 import Paths from 'ts/utils/paths'
 
-import {
-	Alert,
-	Box,
-	Button,
-	CircularProgress,
-	Link,
-	TextField,
-} from '@mui/material'
+import { LoadingButton } from '@mui/lab'
+import { Alert, Box, Link, TextField } from '@mui/material'
 
 import { getInitialFormState } from './validation'
 
@@ -90,19 +84,15 @@ export default function SignInForm(): React.ReactElement {
 					{formState.formMessage || 'Form error'}
 				</Alert>
 			)}
-			<Button
+			<LoadingButton
+				loading={submitting}
 				type='submit'
-				disabled={submitting}
 				fullWidth
 				variant='contained'
 				sx={{ mt: 2, mb: 2 }}
 			>
-				{submitting ? (
-					<CircularProgress size={24} color='inherit' />
-				) : (
-					'Sign In'
-				)}
-			</Button>
+				Sign In
+			</LoadingButton>
 			<Link href={Paths.signUp} variant='body2'>
 				{"Don't have an account? Sign Up"}
 			</Link>

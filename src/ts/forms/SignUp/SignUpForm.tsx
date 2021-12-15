@@ -5,14 +5,8 @@ import { signUp } from 'ts/services/user'
 import { beforeSubmit, handleValueChange, validateForm } from 'ts/utils/helpers'
 import Paths from 'ts/utils/paths'
 
-import {
-	Alert,
-	Box,
-	Button,
-	CircularProgress,
-	Link,
-	TextField,
-} from '@mui/material'
+import { LoadingButton } from '@mui/lab'
+import { Alert, Box, Link, TextField } from '@mui/material'
 
 import { getInitialFormState } from './validation'
 
@@ -126,19 +120,14 @@ export default function SignUpForm(): React.ReactElement {
 					{formState.formMessage || 'Form error'}
 				</Alert>
 			)}
-			<Button
-				type='submit'
-				disabled={submitting}
+			<LoadingButton
+				loading={submitting}
 				fullWidth
 				variant='contained'
 				sx={{ mt: 2, mb: 2 }}
 			>
-				{submitting ? (
-					<CircularProgress size={24} color='inherit' />
-				) : (
-					'Sign Up'
-				)}
-			</Button>
+				Sign Up
+			</LoadingButton>
 			<Link href={Paths.signIn} variant='body2'>
 				{'Already have an account? Sign In'}
 			</Link>

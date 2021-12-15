@@ -3,10 +3,10 @@ import React, { FormEvent, useContext, useRef } from 'react'
 import { UserContext } from 'MainAuthorized'
 import { createBook } from 'ts/services/book'
 
+import { LoadingButton } from '@mui/lab'
 import {
 	Alert,
 	Button,
-	CircularProgress,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -72,13 +72,9 @@ export default function NewBookModal(props: {
 				</DialogContent>
 				<DialogActions>
 					<Button onClick={handleClose}>Cancel</Button>
-					<Button variant='contained' type='submit' disabled={submitting}>
-						{submitting ? (
-							<CircularProgress size={24} color='inherit' />
-						) : (
-							'Create'
-						)}
-					</Button>
+					<LoadingButton variant='contained' type='submit' loading={submitting}>
+						Create
+					</LoadingButton>
 				</DialogActions>
 			</form>
 		</Dialog>

@@ -3,10 +3,10 @@ import React, { useState } from 'react'
 import { deleteBook } from 'ts/services/book'
 import { Book } from 'ts/utils/models'
 
+import { LoadingButton } from '@mui/lab'
 import {
 	Alert,
 	Button,
-	CircularProgress,
 	Dialog,
 	DialogActions,
 	DialogContent,
@@ -53,9 +53,13 @@ export default function DeleteBookDialog(props: {
 				<Button onClick={handleClose} autoFocus>
 					Cancel
 				</Button>
-				<Button onClick={handleDelete} disabled={waiting} variant='contained'>
-					{waiting ? <CircularProgress size={24} color='inherit' /> : 'Delete'}
-				</Button>
+				<LoadingButton
+					onClick={handleDelete}
+					loading={waiting}
+					variant='contained'
+				>
+					Delete
+				</LoadingButton>
 			</DialogActions>
 		</Dialog>
 	)
