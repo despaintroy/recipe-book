@@ -4,6 +4,7 @@ import { scrapeRecipe } from 'ts/services/recipeScrape'
 import { Recipe } from 'ts/utils/models'
 
 import {
+	Alert,
 	CircularProgress,
 	Divider,
 	Icon,
@@ -68,6 +69,12 @@ export default function ImportRecipe(props: {
 					)}
 				</IconButton>
 			</Paper>
+
+			{error && (
+				<Alert severity='error' sx={{ mb: 2 }}>
+					{error}
+				</Alert>
+			)}
 
 			{recipe && <ImportPreview recipe={recipe} />}
 		</Box>
