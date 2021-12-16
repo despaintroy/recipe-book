@@ -10,15 +10,14 @@ import { Alert, Container } from '@mui/material'
 
 export default function RecipeDetail(): React.ReactElement {
 	const urlParams = useParams<{ id: string }>()
-	const bookContext = useContext(BookContext)
-	const book = bookContext.book
+	const { book, refreshBook } = useContext(BookContext)
 	const recipe = book?.recipes?.find(r => r.id === urlParams.id)
 	const history = useHistory()
 
 	function handleDelete(): Promise<void> {
 		if (!book || !recipe) return Promise.reject()
 		return deleteRecipe(book.id, recipe.id).then(() => {
-			bookContext.refreshBook()
+			refreshBook()
 			history.push(Paths.getBookDetailLink(book.id))
 		})
 	}

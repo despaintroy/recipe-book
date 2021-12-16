@@ -46,8 +46,13 @@ function MainAuthorized(props: { user: User }): React.ReactElement {
 	}
 
 	const refreshBook = (): Promise<void> => {
-		if (!book) return Promise.resolve()
-		return getBookByID(book.id).then(setBook)
+		if (!book) {
+			setBook(null)
+			return Promise.reject()
+		}
+		return getBookByID(book.id)
+			.then((book): void => setBook(book))
+			.catch((): void => setBook(null))
 	}
 
 	UserContext = React.createContext({ user, updateUser })
