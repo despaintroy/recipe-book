@@ -17,10 +17,7 @@ import {
 	Typography,
 } from '@mui/material'
 
-export default function HeaderBar(props: {
-	noborder?: boolean
-}): React.ReactElement {
-	const { noborder } = props
+export default function HeaderBar(): React.ReactElement {
 	const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null)
 	const location = useLocation()
 	const history = useHistory()
@@ -42,7 +39,7 @@ export default function HeaderBar(props: {
 			<AppBar
 				position='relative'
 				elevation={0}
-				sx={{ borderBottom: noborder ? 0 : 1, borderColor: 'divider' }}
+				sx={{ borderBottom: 1, borderColor: 'divider' }}
 			>
 				<Toolbar>
 					<IconButton

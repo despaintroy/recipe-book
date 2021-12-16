@@ -37,7 +37,10 @@ export default function AddRecipeModal(props: {
 			onClose={handleClose}
 			TransitionComponent={Transition}
 		>
-			<AppBar sx={{ position: 'fixed' }}>
+			<AppBar
+				elevation={0}
+				sx={{ position: 'fixed', borderBottom: 1, borderColor: 'divider' }}
+			>
 				<Toolbar>
 					<IconButton
 						edge='start'
@@ -63,7 +66,7 @@ export default function AddRecipeModal(props: {
 					</Button>
 				</Toolbar>
 			</AppBar>
-			<Container maxWidth='sm' sx={{ mt: 10 }}>
+			<Container maxWidth='sm' sx={{ pt: 10, backgroundColor: '#f8f8f8' }}>
 				<ImportRecipe setRecipeCallback={setRecipe} />
 			</Container>
 		</Dialog>
