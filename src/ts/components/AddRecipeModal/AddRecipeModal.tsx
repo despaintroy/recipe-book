@@ -63,7 +63,7 @@ export default function AddRecipeModal(props: {
 					</Button>
 				</Toolbar>
 			</AppBar>
-			<Container maxWidth='md' sx={{ mt: 10 }}>
+			<Container maxWidth='sm' sx={{ mt: 10 }}>
 				<ImportRecipe setRecipeCallback={setRecipe} />
 			</Container>
 		</Dialog>

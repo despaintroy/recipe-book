@@ -1,12 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { FormEvent, useEffect } from 'react'
 
-import RecipeCard from 'ts/components/RecipeCard'
 import { scrapeRecipe } from 'ts/services/recipeScrape'
 import { Recipe } from 'ts/utils/models'
 
-import { LoadingButton } from '@mui/lab'
-import { Alert, TextField, Typography } from '@mui/material'
+import {
+	CircularProgress,
+	Divider,
+	Icon,
+	IconButton,
+	InputBase,
+	Paper,
+	Typography,
+} from '@mui/material'
 import { Box } from '@mui/system'
+
+import ImportPreview from './ImportPreview'
 
 export default function ImportRecipe(props: {
 	setRecipeCallback: (recipe: Recipe | null) => void
@@ -19,42 +27,49 @@ export default function ImportRecipe(props: {
 
 	useEffect(() => setRecipeCallback(recipe), [recipe])
 
+	function onSubmit(e: FormEvent): void {
+		e.preventDefault()
+		setError('')
+		setRecipe(null)
+		setSubmitting(true)
+		scrapeRecipe(url)
+			.then((r: Recipe) => setRecipe(r))
+			.catch(() => setError('Unable to import recipe fom that URL'))
+			.finally(() => setSubmitting(false))
+	}
+
 	return (
 		<Box>
 			<Typography variant='h2' sx={{ mb: 3 }}>
 				Import Recipe
 			</Typography>
-			<TextField
-				label='Recipe URL'
-				fullWidth
-				sx={{ mb: 2 }}
-				onChange={(e): void => setUrl(e.target.value)}
-			/>
-			{error && (
-				<Alert severity='error' sx={{ mb: 2 }}>
-					{error}
-				</Alert>
-			)}
-			<LoadingButton
-				onClick={(): void => {
-					setError('')
-					setRecipe(null)
-					setSubmitting(true)
-					scrapeRecipe(url)
-						.then((r: Recipe) => setRecipe(r))
-						.catch(() => setError('Unable to import recipe fom that URL'))
-						.finally(() => setSubmitting(false))
-				}}
-				fullWidth
-				variant='contained'
-				color='primary'
-				loading={submitting}
-				disabled={!url}
-			>
-				Get Recipe
-			</LoadingButton>
 
-			{recipe && <RecipeCard recipe={recipe} />}
+			<Paper
+				component='form'
+				onSubmit={onSubmit}
+				sx={{ py: 1, px: 1, mb: 2, display: 'flex', alignItems: 'center' }}
+			>
+				<InputBase
+					placeholder='Recipe URL'
+					sx={{ width: '100%', mx: 1 }}
+					onChange={(e): void => setUrl(e.target.value)}
+				/>
+				<Divider sx={{ height: 28, m: 0.5 }} orientation='vertical' />
+				<IconButton
+					type='submit'
+					color='primary'
+					sx={{ p: 1 }}
+					disabled={submitting}
+				>
+					{submitting ? (
+						<CircularProgress size={24} />
+					) : (
+						<Icon>cloud_download</Icon>
+					)}
+				</IconButton>
+			</Paper>
+
+			{recipe && <ImportPreview recipe={recipe} />}
 		</Box>
 	)
 }
