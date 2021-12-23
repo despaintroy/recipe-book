@@ -1,3 +1,3 @@
-import RecipeCard from './RecipeCard'
+import RecipeCardEditable from './RecipeCardEditable'
 
-export default RecipeCard
+export default RecipeCardEditable

@@ -47,3 +47,8 @@ export interface Book {
 	recipes?: Recipe[]
 	created?: number
 }
+
+export type RecipeRef = {
+	bookID: string
+	recipeID: string
+}

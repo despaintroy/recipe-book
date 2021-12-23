@@ -1,14 +1,9 @@
 import React, { useState } from 'react'
 
-import { Recipe } from 'ts/utils/models'
+import ReactHtmlParser from 'react-html-parser'
+import { deleteRecipe } from 'ts/services/recipe'
+import { Recipe, RecipeRef } from 'ts/utils/models'
 
-import Timeline from '@mui/lab/Timeline'
-import TimelineConnector from '@mui/lab/TimelineConnector'
-import TimelineContent from '@mui/lab/TimelineContent'
-import TimelineDot from '@mui/lab/TimelineDot'
-import TimelineItem from '@mui/lab/TimelineItem'
-import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent'
-import TimelineSeparator from '@mui/lab/TimelineSeparator'
 import {
 	Button,
 	Card,
@@ -20,58 +15,19 @@ import {
 } from '@mui/material'
 import { Box } from '@mui/system'
 
+import EditRecipeModal from '../EditRecipeModal'
 import DeleteRecipeDialog from './DeleteRecipeDialog'
+import Directions from './Directions'
 
-export default function RecipeCard(props: {
+export default function RecipeCardEditable(props: {
 	recipe: Recipe
-	handleDelete?: () => Promise<void>
+	recipeRef: RecipeRef
+	onEdit?: () => void
+	onDelete?: () => void
 }): React.ReactElement {
-	const { recipe, handleDelete } = props
+	const { recipe, recipeRef, onEdit, onDelete } = props
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false)
-
-	function Directions(): React.ReactElement {
-		if (recipe.recipeInstructions.length === 0) {
-			return (
-				<Typography variant='body1' sx={{ mt: 1 }}>
-					No directions available
-				</Typography>
-			)
-		}
-
-		if (recipe.recipeInstructions.length === 1) {
-			return (
-				<Typography variant='body1' sx={{ mt: 1 }}>
-					{recipe.recipeInstructions.join()}
-				</Typography>
-			)
-		}
-
-		return (
-			<Timeline position='right' sx={{ p: 0 }}>
-				{recipe.recipeInstructions.map((instruction: string, idx) => (
-					<TimelineItem key={instruction}>
-						<TimelineOppositeContent
-							sx={{
-								flex: 0,
-								color: 'primary.main',
-								width: '2ch',
-								marginRight: 2,
-							}}
-						>
-							<b>{idx + 1}</b>
-						</TimelineOppositeContent>
-						<TimelineSeparator>
-							<TimelineDot />
-							{idx < recipe.recipeInstructions.length - 1 && (
-								<TimelineConnector />
-							)}
-						</TimelineSeparator>
-						<TimelineContent>{instruction}</TimelineContent>
-					</TimelineItem>
-				))}
-			</Timeline>
-		)
-	}
+	const [showEditModal, setShowEditModal] = useState(false)
 
 	function recipeTimeString(): string {
 		const prepTime = recipe.prepTime ? `${recipe.prepTime} prep` : ''
@@ -82,6 +38,12 @@ export default function RecipeCard(props: {
 	function getDomain(): string {
 		const url = new URL(recipe.url)
 		return url.hostname
+	}
+
+	function handleDelete(): Promise<void> {
+		return deleteRecipe(recipeRef.bookID, recipeRef.recipeID).then(() => {
+			onDelete && onDelete()
+		})
 	}
 
 	return (
@@ -99,7 +61,7 @@ export default function RecipeCard(props: {
 					</Typography>
 
 					<Typography variant='body1' sx={{ mb: 2 }}>
-						{recipe.description}
+						{ReactHtmlParser(recipe.description)}
 					</Typography>
 
 					{(recipe.totalTime || recipe.prepTime || recipe.cookTime) && (
@@ -156,27 +118,30 @@ export default function RecipeCard(props: {
 					<Typography variant='h2' sx={{ mt: 3 }}>
 						Directions
 					</Typography>
-					<Directions />
+					<Directions recipeInstructions={recipe.recipeInstructions} />
 				</CardContent>
 				<CardActions>
-					{/* <Button size='small'>Edit</Button> */}
-					{handleDelete && (
-						<>
-							<Button
-								size='small'
-								onClick={(): void => setShowDeleteDialog(true)}
-							>
-								Delete
-							</Button>
-							<DeleteRecipeDialog
-								open={showDeleteDialog}
-								handleClose={(): void => setShowDeleteDialog(false)}
-								handleDelete={handleDelete}
-							/>
-						</>
-					)}
+					<Button size='small' onClick={(): void => setShowEditModal(true)}>
+						Edit
+					</Button>
+					<Button size='small' onClick={(): void => setShowDeleteDialog(true)}>
+						Delete
+					</Button>
 				</CardActions>
 			</Card>
+
+			<DeleteRecipeDialog
+				open={showDeleteDialog}
+				handleClose={(): void => setShowDeleteDialog(false)}
+				handleDelete={handleDelete}
+			/>
+			<EditRecipeModal
+				recipe={recipe}
+				recipeRef={recipeRef}
+				open={showEditModal}
+				handleClose={(): void => setShowEditModal(false)}
+				onEdit={onEdit}
+			/>
 		</>
 	)
 }
