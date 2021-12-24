@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
 
 import { UserContext } from 'MainAuthorized'
+import { FormErrorMessage, FormTextField } from 'ts/components/FormComponents'
 import { getMessage } from 'ts/services/errors'
 import { updatePassword } from 'ts/services/user'
-import { beforeSubmit, handleValueChange, validateForm } from 'ts/utils/helpers'
+import { beforeSubmit } from 'ts/utils/helpers'
 
 import { LoadingButton } from '@mui/lab'
-import { Alert, TextField } from '@mui/material'
 import { Box } from '@mui/system'
 
 import { getInitialFormState } from './validation'
@@ -36,45 +36,25 @@ export default function ChangePasswordForm(): React.ReactElement {
 
 	return (
 		<Box component='form' onSubmit={handleSubmit} noValidate>
-			<TextField
-				variant='standard'
-				fullWidth
+			<FormTextField
 				label='New Password'
+				fieldName='password1'
+				autoComplete='new-password'
 				type='password'
-				name='password1'
-				margin='normal'
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.password1 = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.password1 && !formState.isValid.password1}
-				helperText={formState.touched.password1 && formState.messages.password1}
+				formState={formState}
+				setFormState={setFormState}
 			/>
-			<TextField
-				variant='standard'
-				fullWidth
+			<FormTextField
 				label='Confirm New Password'
+				fieldName='password2'
+				autoComplete='new-password'
 				type='password'
-				name='password2'
-				margin='normal'
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.password2 = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.password2 && !formState.isValid.password2}
-				helperText={formState.touched.password2 && formState.messages.password2}
+				formState={formState}
+				setFormState={setFormState}
 			/>
-			{formState.attemptedSubmit && formState.formMessage && (
-				<Alert sx={{ mt: 2 }} severity='error'>
-					{formState.formMessage || 'Form error'}
-				</Alert>
-			)}
+
+			<FormErrorMessage formState={formState} />
+
 			<LoadingButton
 				type='submit'
 				disabled={!(formState.values.password1 && formState.values.password2)}

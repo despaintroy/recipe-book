@@ -1,12 +1,13 @@
 import * as React from 'react'
 
+import { FormErrorMessage, FormTextField } from 'ts/components/FormComponents'
 import { getMessage } from 'ts/services/errors'
 import { signUp } from 'ts/services/user'
-import { beforeSubmit, handleValueChange, validateForm } from 'ts/utils/helpers'
+import { beforeSubmit } from 'ts/utils/helpers'
 import Paths from 'ts/utils/paths'
 
 import { LoadingButton } from '@mui/lab'
-import { Alert, Box, Link, TextField } from '@mui/material'
+import { Box, Link } from '@mui/material'
 
 import { getInitialFormState } from './validation'
 
@@ -39,92 +40,46 @@ export default function SignUpForm(): React.ReactElement {
 
 	return (
 		<Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-			<TextField
-				margin='normal'
-				required
-				fullWidth
-				id='name'
+			<FormTextField
 				label='Name'
-				name='name'
+				fieldName='name'
+				formState={formState}
+				setFormState={setFormState}
 				autoComplete='name'
-				autoFocus
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.name = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.name && !formState.isValid.name}
-				helperText={formState.touched.name && formState.messages.name}
 			/>
-			<TextField
-				margin='normal'
-				required
-				fullWidth
-				id='email'
+			<FormTextField
 				label='Email'
-				name='email'
 				type='email'
+				fieldName='email'
+				formState={formState}
+				setFormState={setFormState}
 				autoComplete='email'
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.email = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.email && !formState.isValid.email}
-				helperText={formState.touched.email && formState.messages.email}
 			/>
-			<TextField
-				margin='normal'
-				required
-				fullWidth
-				name='password1'
+			<FormTextField
 				label='Password'
 				type='password'
-				id='password1'
+				fieldName='password1'
+				formState={formState}
+				setFormState={setFormState}
 				autoComplete='new-password'
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.password1 = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.password1 && !formState.isValid.password1}
-				helperText={formState.touched.password1 && formState.messages.password1}
 			/>
-			<TextField
-				margin='normal'
-				required
-				fullWidth
-				name='password2'
+			<FormTextField
 				label='Confirm Password'
 				type='password'
-				id='password2'
+				fieldName='password2'
+				formState={formState}
+				setFormState={setFormState}
 				autoComplete='new-password'
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.password2 = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.password2 && !formState.isValid.password2}
-				helperText={formState.touched.password2 && formState.messages.password2}
 			/>
-			{formState.attemptedSubmit && formState.formMessage && (
-				<Alert sx={{ mt: 2 }} severity='error'>
-					{formState.formMessage || 'Form error'}
-				</Alert>
-			)}
+
+			<FormErrorMessage formState={formState} />
+
 			<LoadingButton
 				loading={submitting}
 				fullWidth
 				variant='contained'
 				sx={{ mt: 2, mb: 2 }}
+				type='submit'
 			>
 				Sign Up
 			</LoadingButton>

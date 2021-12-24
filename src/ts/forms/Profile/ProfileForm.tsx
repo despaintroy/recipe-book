@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react'
 
 import { UserContext } from 'MainAuthorized'
+import { FormErrorMessage, FormTextField } from 'ts/components/FormComponents'
 import { getMessage } from 'ts/services/errors'
 import { updateEmail, updateName } from 'ts/services/user'
-import { beforeSubmit, handleValueChange, validateForm } from 'ts/utils/helpers'
+import { beforeSubmit } from 'ts/utils/helpers'
 
 import { LoadingButton } from '@mui/lab'
-import { Alert, TextField } from '@mui/material'
 import { Box } from '@mui/system'
 
 import { getInitialFormState } from './validation'
@@ -53,46 +53,23 @@ export default function ProfileForm(): React.ReactElement {
 
 	return (
 		<Box component='form' onSubmit={handleSubmit} noValidate>
-			<TextField
-				variant='standard'
-				fullWidth
+			<FormTextField
 				label='Name'
-				name='name'
-				defaultValue={user.name}
-				margin='normal'
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.name = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.name && !formState.isValid.name}
-				helperText={formState.touched.name && formState.messages.name}
+				fieldName='name'
+				autoComplete='name'
+				formState={formState}
+				setFormState={setFormState}
 			/>
-			<TextField
-				variant='standard'
-				fullWidth
+			<FormTextField
 				label='Email'
-				type='email'
-				name='email'
-				defaultValue={user.email}
-				margin='normal'
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.email = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.email && !formState.isValid.email}
-				helperText={formState.touched.email && formState.messages.email}
+				fieldName='email'
+				autoComplete='email'
+				formState={formState}
+				setFormState={setFormState}
 			/>
-			{formState.attemptedSubmit && formState.formMessage && (
-				<Alert sx={{ mt: 2 }} severity='error'>
-					{formState.formMessage || 'Form error'}
-				</Alert>
-			)}
+
+			<FormErrorMessage formState={formState} />
+
 			<LoadingButton
 				type='submit'
 				disabled={!hasChanged}

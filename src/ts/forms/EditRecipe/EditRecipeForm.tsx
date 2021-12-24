@@ -1,11 +1,12 @@
 import React from 'react'
 
+import { FormErrorMessage, FormTextField } from 'ts/components/FormComponents'
 import { updateRecipe } from 'ts/services/recipe'
-import { beforeSubmit, handleValueChange, validateForm } from 'ts/utils/helpers'
+import { beforeSubmit } from 'ts/utils/helpers'
 import { Recipe, RecipeRef } from 'ts/utils/models'
 
 import { LoadingButton } from '@mui/lab'
-import { Alert, Box, TextField } from '@mui/material'
+import { Box } from '@mui/material'
 
 import { getInitialFormState } from './validation'
 
@@ -40,144 +41,52 @@ export default function EditRecipeForm(props: {
 			noValidate
 			sx={{ mt: 1, width: '100%' }}
 		>
-			<TextField
-				margin='normal'
-				required
-				fullWidth
-				id='name'
+			<FormTextField
 				label='Recipe Name'
-				name='name'
-				variant='standard'
-				defaultValue={formState.values.name}
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.name = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.name && !formState.isValid.name}
-				helperText={formState.touched.name && formState.messages.name}
+				fieldName='name'
+				formState={formState}
+				setFormState={setFormState}
 			/>
-			<TextField
-				margin='normal'
-				multiline
-				fullWidth
-				id='description'
+			<FormTextField
 				label='Description'
-				name='description'
-				variant='standard'
-				defaultValue={formState.values.description}
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.description = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.description && !formState.isValid.description}
-				helperText={
-					formState.touched.description && formState.messages.description
-				}
+				fieldName='description'
+				multiline
+				formState={formState}
+				setFormState={setFormState}
 			/>
-			<TextField
-				margin='normal'
-				fullWidth
-				id='url'
+			<FormTextField
 				label='URL'
-				name='url'
-				variant='standard'
-				defaultValue={formState.values.url}
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.url = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.url && !formState.isValid.url}
-				helperText={formState.touched.url && formState.messages.url}
+				fieldName='url'
+				type='url'
+				formState={formState}
+				setFormState={setFormState}
 			/>
-			<TextField
-				margin='normal'
-				fullWidth
-				id='recipeYield'
+			<FormTextField
 				label='Makes'
-				name='recipeYield'
-				variant='standard'
-				defaultValue={formState.values.recipeYield}
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.recipeYield = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.recipeYield && !formState.isValid.recipeYield}
-				helperText={
-					formState.touched.recipeYield && formState.messages.recipeYield
-				}
+				fieldName='recipeYield'
+				formState={formState}
+				setFormState={setFormState}
 			/>
-			<TextField
-				margin='normal'
-				fullWidth
-				id='totalTime'
+			<FormTextField
 				label='Total Time'
-				name='totalTime'
-				variant='standard'
-				defaultValue={formState.values.totalTime}
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.totalTime = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.totalTime && !formState.isValid.totalTime}
-				helperText={formState.touched.totalTime && formState.messages.totalTime}
+				fieldName='totalTime'
+				formState={formState}
+				setFormState={setFormState}
 			/>
-			<TextField
-				margin='normal'
-				fullWidth
-				id='cookTime'
-				label='Cook Time'
-				name='cookTime'
-				variant='standard'
-				defaultValue={formState.values.cookTime}
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.cookTime = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.cookTime && !formState.isValid.cookTime}
-				helperText={formState.touched.cookTime && formState.messages.cookTime}
-			/>
-			<TextField
-				margin='normal'
-				fullWidth
-				id='prepTime'
+			<FormTextField
 				label='Prep Time'
-				name='prepTime'
-				variant='standard'
-				defaultValue={formState.values.prepTime}
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.prepTime = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.prepTime && !formState.isValid.prepTime}
-				helperText={formState.touched.prepTime && formState.messages.prepTime}
+				fieldName='prepTime'
+				formState={formState}
+				setFormState={setFormState}
+			/>
+			<FormTextField
+				label='Cook Time'
+				fieldName='cookTime'
+				formState={formState}
+				setFormState={setFormState}
 			/>
 
-			{formState.attemptedSubmit && formState.formMessage && (
-				<Alert sx={{ mt: 2 }} severity='error'>
-					{formState.formMessage || 'Form error'}
-				</Alert>
-			)}
+			<FormErrorMessage formState={formState} />
 
 			<LoadingButton
 				loading={submitting}

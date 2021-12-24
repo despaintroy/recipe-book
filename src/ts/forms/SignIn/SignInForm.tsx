@@ -1,12 +1,13 @@
 import React from 'react'
 
+import { FormErrorMessage, FormTextField } from 'ts/components/FormComponents'
 import { signIn } from 'ts/services/auth'
 import { getMessage } from 'ts/services/errors'
-import { beforeSubmit, handleValueChange, validateForm } from 'ts/utils/helpers'
+import { beforeSubmit } from 'ts/utils/helpers'
 import Paths from 'ts/utils/paths'
 
 import { LoadingButton } from '@mui/lab'
-import { Alert, Box, Link, TextField } from '@mui/material'
+import { Box, Link } from '@mui/material'
 
 import { getInitialFormState } from './validation'
 
@@ -40,50 +41,24 @@ export default function SignInForm(): React.ReactElement {
 			noValidate
 			sx={{ mt: 1, width: '100%' }}
 		>
-			<TextField
-				margin='normal'
-				required
-				fullWidth
-				type='email'
-				id='email'
+			<FormTextField
 				label='Email'
-				name='email'
+				fieldName='email'
+				formState={formState}
+				setFormState={setFormState}
 				autoComplete='email'
-				autoFocus
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.email = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.email && !formState.isValid.email}
-				helperText={formState.touched.email && formState.messages.email}
 			/>
-			<TextField
-				margin='normal'
-				required
-				fullWidth
-				name='password'
-				label='Password'
+			<FormTextField
 				type='password'
-				id='password'
+				label='Password'
+				fieldName='password'
+				formState={formState}
+				setFormState={setFormState}
 				autoComplete='current-password'
-				onChange={(e): void =>
-					setFormState(state => handleValueChange(e, state))
-				}
-				onBlur={(): void => {
-					formState.touched.password = true
-					setFormState(state => validateForm(state))
-				}}
-				error={formState.touched.password && !formState.isValid.password}
-				helperText={formState.touched.password && formState.messages.password}
 			/>
-			{formState.attemptedSubmit && formState.formMessage && (
-				<Alert sx={{ mt: 2 }} severity='error'>
-					{formState.formMessage || 'Form error'}
-				</Alert>
-			)}
+
+			<FormErrorMessage formState={formState} />
+
 			<LoadingButton
 				loading={submitting}
 				type='submit'
