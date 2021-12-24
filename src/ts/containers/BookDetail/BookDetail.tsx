@@ -5,8 +5,6 @@ import { useParams } from 'react-router-dom'
 import AddRecipeModal from 'ts/components/AddRecipeModal'
 import RecipeList from 'ts/components/RecipeList'
 import { getBookByID } from 'ts/services/book'
-import { addRecipe } from 'ts/services/recipe'
-import { Recipe } from 'ts/utils/models'
 
 import {
 	Alert,
@@ -67,11 +65,10 @@ export default function BookDetail(): React.ReactElement {
 			</Box>
 			<RecipeList masonry recipes={book.recipes || []} />
 			<AddRecipeModal
+				bookID={book.id}
 				open={showNewRecipeModal}
 				handleClose={(): void => setShowNewRecipeModal(false)}
-				onAdd={(recipe: Recipe): void => {
-					addRecipe(book.id, recipe).then(refreshBook)
-				}}
+				onAdd={refreshBook}
 			/>
 		</Container>
 	)

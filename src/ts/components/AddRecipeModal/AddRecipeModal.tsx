@@ -1,12 +1,13 @@
 import React from 'react'
 
 import ImportRecipe from 'ts/containers/ImportRecipe'
+import { addRecipe } from 'ts/services/recipe'
 import { Recipe } from 'ts/utils/models'
 
 import CloseIcon from '@mui/icons-material/Close'
-import { Container, Typography } from '@mui/material'
+import { LoadingButton } from '@mui/lab'
+import { Alert, Container, Typography } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
-import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import IconButton from '@mui/material/IconButton'
 import Slide from '@mui/material/Slide'
@@ -23,12 +24,36 @@ const Transition = React.forwardRef(function Transition(
 })
 
 export default function AddRecipeModal(props: {
+	bookID: string
 	open: boolean
 	handleClose: () => void
 	onAdd: (recipe: Recipe) => void
 }): React.ReactElement {
-	const { open, handleClose, onAdd } = props
+	const { bookID, open, handleClose, onAdd } = props
 	const [recipe, setRecipe] = React.useState<Recipe | null>()
+	const [error, setError] = React.useState('')
+	const [submitting, setSubmitting] = React.useState(false)
+
+	function handleSubmit(event: React.MouseEvent): void {
+		event.preventDefault()
+
+		setError('')
+
+		if (!recipe) {
+			setError('No recipe selected')
+			return
+		}
+
+		setSubmitting(true)
+
+		addRecipe(bookID, recipe)
+			.then(() => {
+				onAdd(recipe)
+				handleClose()
+			})
+			.catch(() => setError('Error adding recipe'))
+			.finally(() => setSubmitting(false))
+	}
 
 	return (
 		<Dialog
@@ -53,21 +78,28 @@ export default function AddRecipeModal(props: {
 					<Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
 						Add Recipe
 					</Typography>
-					<Button
-						autoFocus
-						color='inherit'
-						disabled={!recipe}
-						onClick={(): void => {
-							recipe && onAdd(recipe)
-							handleClose()
-						}}
-					>
-						Save Recipe
-					</Button>
 				</Toolbar>
 			</AppBar>
 			<Container maxWidth='sm' sx={{ pt: 10 }}>
 				<ImportRecipe setRecipeCallback={setRecipe} />
+
+				{error && (
+					<Alert sx={{ mt: 2 }} severity='error'>
+						{error}
+					</Alert>
+				)}
+
+				{recipe && (
+					<LoadingButton
+						loading={submitting}
+						onClick={handleSubmit}
+						fullWidth
+						variant='contained'
+						sx={{ mt: 2, mb: 2 }}
+					>
+						Import Recipe
+					</LoadingButton>
+				)}
 			</Container>
 		</Dialog>
 	)

@@ -32,10 +32,16 @@ export default function ImportRecipe(props: {
 		e.preventDefault()
 		setError('')
 		setRecipe(null)
+
+		if (!url) {
+			setError('Enter a URL')
+			return
+		}
+
 		setSubmitting(true)
 		scrapeRecipe(url)
 			.then((r: Recipe) => setRecipe(r))
-			.catch(() => setError('Unable to import recipe fom that URL'))
+			.catch(() => setError('Unable to import recipe fom URL'))
 			.finally(() => setSubmitting(false))
 	}
 
