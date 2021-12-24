@@ -11,21 +11,6 @@ export interface UserData {
 	bookIDs?: string[]
 }
 
-export type FormValidator<FieldNames extends string> = (
-	state: FormState<FieldNames>
-) => FormState<FieldNames>
-
-export interface FormState<FieldNames extends string> {
-	values: Record<FieldNames, string>
-	isValid: Record<FieldNames, boolean>
-	messages: Record<FieldNames, string>
-	touched: Record<FieldNames, boolean>
-	validators: Record<FieldNames, FormValidator<FieldNames>[]>
-	formValid: boolean
-	formMessage: string
-	attemptedSubmit: boolean
-}
-
 export interface RecipeResponse {
 	url: string
 	name: string
