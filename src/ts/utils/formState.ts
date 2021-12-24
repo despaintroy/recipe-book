@@ -18,6 +18,7 @@ export interface FormState<FieldNames extends string> {
 	attemptedSubmit: boolean
 
 	validate: () => void
+	touch: (fieldName: FieldNames) => void
 }
 
 export function newFormState<FieldNames extends string>(
@@ -40,6 +41,9 @@ export function newFormState<FieldNames extends string>(
 				this.messages[field] = messages
 			}
 			this.formValid = Object.values(state.isValid).every(isValid => isValid)
+		},
+		touch: function (fieldName: FieldNames): void {
+			this.touched[fieldName] = true
 		},
 	}
 	for (const field of fields) {

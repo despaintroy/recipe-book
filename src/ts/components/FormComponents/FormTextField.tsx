@@ -27,7 +27,7 @@ export default function FormTextField<FieldNames extends string>(
 			defaultValue={formState.values[fieldName]}
 			onChange={(e): void => setFormState(state => handleValueChange(e, state))}
 			onBlur={(): void => {
-				formState.touched[fieldName] = true
+				formState.touch(fieldName)
 				formState.validate()
 				setFormState({ ...formState })
 			}}
