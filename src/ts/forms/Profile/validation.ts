@@ -1,20 +1,32 @@
 import { EMAIL_REGEX } from 'ts/utils/constants'
-import { FormState, newFormState } from 'ts/utils/formState'
+import {
+	FieldValidatorResponse,
+	FormState,
+	newFormState,
+} from 'ts/utils/formState'
 import { User } from 'ts/utils/models'
 
 const fieldsArray = ['name', 'email'] as const
 type Fields = typeof fieldsArray[number]
 
-export const emailValidator = (state: FormState<Fields>): FormState<Fields> => {
-	state.isValid.email = !!state.values.email.match(EMAIL_REGEX)
-	state.messages.email = state.isValid.email ? '' : 'Invalid email address'
-	return { ...state }
+export const nameValidator = (
+	state: FormState<Fields>
+): FieldValidatorResponse => {
+	const isValid = state.values.name.length > 0
+	return {
+		isValid: isValid,
+		message: isValid ? '' : 'Required',
+	}
 }
 
-export const nameValidator = (state: FormState<Fields>): FormState<Fields> => {
-	state.isValid.name = state.values.name.length > 0
-	state.messages.name = state.isValid.name ? '' : 'Required'
-	return { ...state }
+export const emailValidator = (
+	state: FormState<Fields>
+): FieldValidatorResponse => {
+	const isValid = !!state.values.email.match(EMAIL_REGEX)
+	return {
+		isValid: isValid,
+		message: isValid ? '' : 'Invalid email address',
+	}
 }
 
 export const getInitialFormState = (user: User): FormState<Fields> => {

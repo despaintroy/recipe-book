@@ -1,39 +1,51 @@
 import { EMAIL_REGEX } from 'ts/utils/constants'
-import { FormState, newFormState } from 'ts/utils/formState'
+import {
+	FieldValidatorResponse,
+	FormState,
+	newFormState,
+} from 'ts/utils/formState'
 
 const fieldsArray = ['name', 'email', 'password1', 'password2'] as const
 type Fields = typeof fieldsArray[number]
 
-export const nameValidator = (state: FormState<Fields>): FormState<Fields> => {
-	state.isValid.name = state.values.name.length > 0
-	state.messages.name = state.isValid.name ? '' : 'Required'
-	return { ...state }
+export const nameValidator = (
+	state: FormState<Fields>
+): FieldValidatorResponse => {
+	const isValid = state.values.name.length > 0
+	return {
+		isValid: isValid,
+		message: isValid ? '' : 'Invalid email address',
+	}
 }
 
-export const emailValidator = (state: FormState<Fields>): FormState<Fields> => {
-	state.isValid.email = !!state.values.email.match(EMAIL_REGEX)
-	state.messages.email = state.isValid.email ? '' : 'Invalid email address'
-	return { ...state }
+export const emailValidator = (
+	state: FormState<Fields>
+): FieldValidatorResponse => {
+	const isValid = !!state.values.email.match(EMAIL_REGEX)
+	return {
+		isValid: isValid,
+		message: isValid ? '' : 'Invalid email address',
+	}
 }
 
 export const password1Validator = (
 	state: FormState<Fields>
-): FormState<Fields> => {
-	state.isValid.password1 = state.values.password1.length > 4
-	state.messages.password1 = state.isValid.password1
-		? ''
-		: 'Must be at least 5 characters long'
-	return { ...state }
+): FieldValidatorResponse => {
+	const isValid = state.values.password1.length > 4
+	return {
+		isValid: isValid,
+		message: isValid ? '' : 'Must be at least 5 characters long',
+	}
 }
 
 export const password2Validator = (
 	state: FormState<Fields>
-): FormState<Fields> => {
-	state.isValid.password2 = state.values.password2 === state.values.password1
-	state.messages.password2 = state.isValid.password2
-		? ''
-		: 'Passwords do not match'
-	return { ...state }
+): FieldValidatorResponse => {
+	const isValid = state.values.password1 === state.values.password2
+	return {
+		isValid: isValid,
+		message: isValid ? '' : 'Passwords do not match',
+	}
 }
 
 export const getInitialFormState = (): FormState<Fields> => {

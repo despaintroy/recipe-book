@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react'
 
-import { FormState, handleValueChange, validateForm } from 'ts/utils/formState'
+import { FormState, handleValueChange } from 'ts/utils/formState'
 
 import { BaseTextFieldProps, TextField } from '@mui/material'
 
@@ -28,7 +28,8 @@ export default function FormTextField<FieldNames extends string>(
 			onChange={(e): void => setFormState(state => handleValueChange(e, state))}
 			onBlur={(): void => {
 				formState.touched[fieldName] = true
-				setFormState(state => validateForm(state))
+				formState.validate()
+				setFormState({ ...formState })
 			}}
 			error={formState.touched[fieldName] && !formState.isValid[fieldName]}
 			helperText={formState.touched[fieldName] && formState.messages[fieldName]}

@@ -1,5 +1,9 @@
 import { URL_REGEX } from 'ts/utils/constants'
-import { FormState, newFormState } from 'ts/utils/formState'
+import {
+	FieldValidatorResponse,
+	FormState,
+	newFormState,
+} from 'ts/utils/formState'
 import { Recipe } from 'ts/utils/models'
 
 const fieldsArray = [
@@ -13,34 +17,21 @@ const fieldsArray = [
 ] as const
 type Fields = typeof fieldsArray[number]
 
-const nameValidator = (state: FormState<Fields>): FormState<Fields> => {
-	state.isValid.name = state.values.name.length > 0
-	state.messages.name = state.isValid.name ? '' : 'Required'
-	return { ...state }
+const nameValidator = (state: FormState<Fields>): FieldValidatorResponse => {
+	const isValid = state.values.name.length > 0
+	return {
+		isValid: isValid,
+		message: isValid ? '' : 'Required',
+	}
 }
 
-const descriptionValidator = (state: FormState<Fields>): FormState<Fields> => {
-	state.isValid.description = true
-	return { ...state }
-}
-
-const urlValidator = (state: FormState<Fields>): FormState<Fields> => {
-	state.isValid.url =
+const urlValidator = (state: FormState<Fields>): FieldValidatorResponse => {
+	const isValid =
 		state.values.url.length === 0 || !!state.values.url.match(URL_REGEX)
-	state.messages.url = state.isValid.url ? '' : 'Invalid url'
-	return { ...state }
-}
-
-const recipeYieldValidator = (state: FormState<Fields>): FormState<Fields> => {
-	state.isValid.recipeYield = true
-	return { ...state }
-}
-
-const recipeTimeValidator = (state: FormState<Fields>): FormState<Fields> => {
-	state.isValid.cookTime = true
-	state.isValid.prepTime = true
-	state.isValid.totalTime = true
-	return { ...state }
+	return {
+		isValid: isValid,
+		message: isValid ? '' : 'Invalid URL',
+	}
 }
 
 export const getInitialFormState = (recipe: Recipe): FormState<Fields> => {
@@ -58,12 +49,12 @@ export const getInitialFormState = (recipe: Recipe): FormState<Fields> => {
 		},
 		validators: {
 			name: [nameValidator],
-			description: [descriptionValidator],
+			description: [],
 			url: [urlValidator],
-			recipeYield: [recipeYieldValidator],
-			cookTime: [recipeTimeValidator],
-			prepTime: [recipeTimeValidator],
-			totalTime: [recipeTimeValidator],
+			recipeYield: [],
+			cookTime: [],
+			prepTime: [],
+			totalTime: [],
 		},
 	}
 }
