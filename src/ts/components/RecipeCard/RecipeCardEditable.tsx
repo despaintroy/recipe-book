@@ -89,7 +89,7 @@ export default function RecipeCardEditable(props: {
 
 					{recipe.url && (
 						<Box sx={{ display: 'flex', mb: 2 }}>
-							<Icon sx={{ my: 'auto', marginRight: 2 }}>open_in_new</Icon>
+							<Icon sx={{ my: 'auto', marginRight: 2 }}>link</Icon>
 							<Button
 								component='a'
 								href={recipe.url}
@@ -99,7 +99,6 @@ export default function RecipeCardEditable(props: {
 									left: -4,
 									textTransform: 'lowercase',
 								}}
-								startIcon={<Icon fontSize='small'>link</Icon>}
 							>
 								{getDomain()}
 							</Button>

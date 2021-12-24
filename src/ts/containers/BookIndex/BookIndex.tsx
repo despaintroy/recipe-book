@@ -15,7 +15,9 @@ export default function BookIndex(): React.ReactElement {
 	React.useEffect(() => refreshBooks(), [])
 
 	function refreshBooks(): void {
-		getAllBooks().then(setBooks)
+		getAllBooks()
+			.then(setBooks)
+			.catch(() => setBooks([]))
 	}
 
 	return (

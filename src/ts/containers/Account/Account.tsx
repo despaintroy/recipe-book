@@ -16,6 +16,7 @@ export default function Account(): React.ReactElement {
 					mt: 2,
 					display: 'flex',
 					flexWrap: 'wrap',
+					alignItems: 'start',
 					gap: 2,
 					[theme.breakpoints.up('sm')]: {
 						flexWrap: 'nowrap',

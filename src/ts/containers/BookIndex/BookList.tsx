@@ -13,12 +13,13 @@ export default function BookList(props: {
 }): React.ReactElement {
 	const { books, refreshBooks } = props
 
-	if (!books)
+	if (books === undefined) {
 		return (
 			<Box sx={{ textAlign: 'center' }}>
 				<CircularProgress />
 			</Box>
 		)
+	}
 
 	if (books.length === 0)
 		return <p>Get started by creating your first recipe book!</p>
