@@ -67,7 +67,7 @@ function MainAuthorized(props: { user: User }): React.ReactElement {
 			<BookContext.Provider value={{ book, setBook, refreshBook }}>
 				<Router basename='/'>
 					<ScrollToTop />
-					<Stack height='100%'>
+					<Stack height='100%' className='app'>
 						<HeaderBar />
 						<Switch>
 							<Route exact path={Paths.home} component={BookIndex} />

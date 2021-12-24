@@ -46,9 +46,11 @@ export default function HeaderBar(): React.ReactElement {
 						size='large'
 						color='inherit'
 						onClick={(): void => history.goBack()}
-						sx={{ display: { xs: 'inline-block', sm: 'none' } }}
+						sx={{ display: { xs: 'flex', sm: 'none' } }}
 					>
-						<Icon>{!routerMatch && 'arrow_back'}</Icon>
+						<Icon sx={{ display: 'block', alignSelf: 'center' }}>
+							{!routerMatch && 'arrow_back'}
+						</Icon>
 					</IconButton>
 
 					<Button
