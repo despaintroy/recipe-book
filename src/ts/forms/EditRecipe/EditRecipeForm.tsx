@@ -2,7 +2,6 @@ import React from 'react'
 
 import { FormErrorMessage, FormTextField } from 'ts/components/FormComponents'
 import { updateRecipe } from 'ts/services/recipe'
-import { beforeSubmit } from 'ts/utils/formState'
 import { Recipe, RecipeRef } from 'ts/utils/models'
 
 import { LoadingButton } from '@mui/lab'
@@ -23,7 +22,10 @@ export default function EditRecipeForm(props: {
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
 		event.preventDefault()
 
-		setFormState(state => beforeSubmit(state))
+		setFormState(state => {
+			state.beforeSubmit()
+			return { ...state }
+		})
 
 		if (!formState.formValid) return
 

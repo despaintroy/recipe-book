@@ -3,7 +3,6 @@ import * as React from 'react'
 import { FormErrorMessage, FormTextField } from 'ts/components/FormComponents'
 import { getMessage } from 'ts/services/errors'
 import { signUp } from 'ts/services/user'
-import { beforeSubmit } from 'ts/utils/formState'
 import Paths from 'ts/utils/paths'
 
 import { LoadingButton } from '@mui/lab'
@@ -19,7 +18,10 @@ export default function SignUpForm(): React.ReactElement {
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
 		event.preventDefault()
 
-		setFormState(state => beforeSubmit(state))
+		setFormState(state => {
+			state.beforeSubmit()
+			return { ...state }
+		})
 
 		if (!formState.formValid) return
 

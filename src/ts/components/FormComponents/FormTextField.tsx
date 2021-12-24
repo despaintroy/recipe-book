@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react'
 
-import { FormState, handleValueChange } from 'ts/utils/formState'
+import { FormState } from 'ts/utils/formState'
 
 import { BaseTextFieldProps, TextField } from '@mui/material'
 
@@ -25,7 +25,10 @@ export default function FormTextField<FieldNames extends string>(
 			fullWidth={rest.fullWidth ?? true}
 			variant={rest.variant ?? 'standard'}
 			defaultValue={formState.values[fieldName]}
-			onChange={(e): void => setFormState(state => handleValueChange(e, state))}
+			onChange={(e): void => {
+				formState.handleValueChange(fieldName, e.target.value)
+				setFormState({ ...formState })
+			}}
 			onBlur={(): void => {
 				formState.touch(fieldName)
 				formState.validate()

@@ -4,7 +4,6 @@ import { UserContext } from 'MainAuthorized'
 import { FormErrorMessage, FormTextField } from 'ts/components/FormComponents'
 import { getMessage } from 'ts/services/errors'
 import { updateEmail, updateName } from 'ts/services/user'
-import { beforeSubmit } from 'ts/utils/formState'
 
 import { LoadingButton } from '@mui/lab'
 import { Box } from '@mui/system'
@@ -29,7 +28,11 @@ export default function ProfileForm(): React.ReactElement {
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
 		event.preventDefault()
 
-		setFormState(state => beforeSubmit(state))
+		setFormState(state => {
+			state.beforeSubmit()
+			return { ...state }
+		})
+
 		if (!formState.formValid) return
 
 		setSubmitting(true)

@@ -18,6 +18,9 @@ export interface FormState<FieldNames extends string> {
 	attemptedSubmit: boolean
 
 	validate: () => void
+	validateField: (fieldName: FieldNames) => void
+	beforeSubmit: () => void
+	handleValueChange: (fieldName: FieldNames, value: string) => void
 	touch: (fieldName: FieldNames) => void
 }
 
@@ -35,13 +38,39 @@ export function newFormState<FieldNames extends string>(
 		attemptedSubmit: false,
 
 		validate: function (): void {
-			for (const field of fields) {
-				const { isValid, message: messages } = validateField(this, field)
-				this.isValid[field] = isValid
-				this.messages[field] = messages
-			}
+			for (const field of fields) this.validateField(field)
 			this.formValid = Object.values(state.isValid).every(isValid => isValid)
 		},
+
+		validateField: function (fieldName: FieldNames): void {
+			if (this.validators[fieldName].length === 0) {
+				this.isValid[fieldName] = true
+				this.messages[fieldName] = ''
+				return
+			}
+
+			for (const validator of this.validators[fieldName]) {
+				const { isValid, message: messages } = validator(this)
+				this.isValid[fieldName] = isValid
+				this.messages[fieldName] = messages
+				if (!this.isValid[fieldName]) break
+			}
+		},
+
+		beforeSubmit: function (): void {
+			this.validate()
+			for (const key in this.touched) this.touch(key)
+			this.attemptedSubmit = true
+			if (!this.formValid)
+				this.formMessage = 'Please fix the errors in the form'
+		},
+
+		handleValueChange: function (fieldName: FieldNames, value: string): void {
+			this.values[fieldName] = value
+
+			if (!this.isValid[fieldName]) this.validateField(fieldName)
+		},
+
 		touch: function (fieldName: FieldNames): void {
 			this.touched[fieldName] = true
 		},
@@ -54,52 +83,4 @@ export function newFormState<FieldNames extends string>(
 		state.validators[field] = []
 	}
 	return state
-}
-
-export function beforeSubmit<FieldNames extends string>(
-	state: FormState<FieldNames>
-): FormState<FieldNames> {
-	state.validate()
-	for (const key in state.touched) state.touched[key] = true
-	state.attemptedSubmit = true
-	if (!state.formValid) state.formMessage = 'Please fix the errors in the form'
-	return state
-}
-
-export function validateField<FieldNames extends string>(
-	state: FormState<FieldNames>,
-	field: FieldNames
-): FieldValidatorResponse {
-	if (state.validators[field].length === 0) {
-		return { isValid: true, message: '' }
-	}
-
-	for (const validator of state.validators[field]) {
-		const { isValid, message: messages } = validator(state)
-		state.isValid[field] = isValid
-		state.messages[field] = messages
-		if (!state.isValid[field]) break
-	}
-
-	return {
-		isValid: state.isValid[field],
-		message: state.messages[field],
-	}
-}
-
-export function handleValueChange<FieldNames extends string>(
-	event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-	state: FormState<FieldNames>
-): FormState<FieldNames> {
-	const name = event.target.name as FieldNames
-	const value = event.target.value
-	state.values[name] = value
-
-	if (!state.isValid[name]) {
-		const { isValid, message: messages } = validateField(state, name)
-		state.isValid[name] = isValid
-		state.messages[name] = messages
-	}
-
-	return { ...state }
 }

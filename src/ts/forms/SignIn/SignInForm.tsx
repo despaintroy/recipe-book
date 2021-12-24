@@ -3,7 +3,6 @@ import React from 'react'
 import { FormErrorMessage, FormTextField } from 'ts/components/FormComponents'
 import { signIn } from 'ts/services/auth'
 import { getMessage } from 'ts/services/errors'
-import { beforeSubmit } from 'ts/utils/formState'
 import Paths from 'ts/utils/paths'
 
 import { LoadingButton } from '@mui/lab'
@@ -19,7 +18,10 @@ export default function SignInForm(): React.ReactElement {
 	function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
 		event.preventDefault()
 
-		setFormState(state => beforeSubmit(state))
+		setFormState(state => {
+			state.beforeSubmit()
+			return { ...state }
+		})
 
 		if (!formState.formValid) return
 
