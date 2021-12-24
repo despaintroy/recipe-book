@@ -2,7 +2,7 @@ import React from 'react'
 
 import { FormErrorMessage, FormTextField } from 'ts/components/FormComponents'
 import { updateRecipe } from 'ts/services/recipe'
-import { beforeSubmit } from 'ts/utils/helpers'
+import { beforeSubmit } from 'ts/utils/formState'
 import { Recipe, RecipeRef } from 'ts/utils/models'
 
 import { LoadingButton } from '@mui/lab'

@@ -3,7 +3,7 @@ import * as React from 'react'
 import { FormErrorMessage, FormTextField } from 'ts/components/FormComponents'
 import { getMessage } from 'ts/services/errors'
 import { signUp } from 'ts/services/user'
-import { beforeSubmit } from 'ts/utils/helpers'
+import { beforeSubmit } from 'ts/utils/formState'
 import Paths from 'ts/utils/paths'
 
 import { LoadingButton } from '@mui/lab'

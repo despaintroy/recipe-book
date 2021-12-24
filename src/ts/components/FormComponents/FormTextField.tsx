@@ -1,6 +1,6 @@
 import React, { Dispatch } from 'react'
 
-import { handleValueChange, validateForm } from 'ts/utils/helpers'
+import { handleValueChange, validateForm } from 'ts/utils/formState'
 import { FormState } from 'ts/utils/models'
 
 import { BaseTextFieldProps, TextField } from '@mui/material'

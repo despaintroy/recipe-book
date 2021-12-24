@@ -1,8 +1,5 @@
 import { FormState, FormValidator } from 'ts/utils/models'
 
-/* --------------------------------------
-							FORM STATE
--------------------------------------- */
 export function newFormState<FieldNames extends string>(
 	fields: readonly FieldNames[]
 ): FormState<FieldNames> {
