@@ -57,13 +57,13 @@ export const getInitialFormState = (recipe: Recipe): FormState<Fields> => {
 			totalTime: recipe.totalTime,
 		},
 		validators: {
-			name: nameValidator,
-			description: descriptionValidator,
-			url: urlValidator,
-			recipeYield: recipeYieldValidator,
-			cookTime: recipeTimeValidator,
-			prepTime: recipeTimeValidator,
-			totalTime: recipeTimeValidator,
+			name: [nameValidator],
+			description: [descriptionValidator],
+			url: [urlValidator],
+			recipeYield: [recipeYieldValidator],
+			cookTime: [recipeTimeValidator],
+			prepTime: [recipeTimeValidator],
+			totalTime: [recipeTimeValidator],
 		},
 	}
 }

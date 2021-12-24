@@ -41,10 +41,10 @@ export const getInitialFormState = (): FormState<Fields> => {
 	return {
 		...newFormState(fieldsArray),
 		validators: {
-			name: nameValidator,
-			email: emailValidator,
-			password1: password1Validator,
-			password2: password2Validator,
+			name: [nameValidator],
+			email: [emailValidator],
+			password1: [password1Validator],
+			password2: [password2Validator],
 		},
 	}
 }

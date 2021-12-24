@@ -25,8 +25,8 @@ export const getInitialFormState = (user: User): FormState<Fields> => {
 			email: user.email ?? '',
 		},
 		validators: {
-			email: emailValidator,
-			name: nameValidator,
+			email: [emailValidator],
+			name: [nameValidator],
 		},
 	}
 }

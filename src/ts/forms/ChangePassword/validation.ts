@@ -26,8 +26,8 @@ export const getInitialFormState = (): FormState<Fields> => {
 	return {
 		...newFormState(fieldsArray),
 		validators: {
-			password1: password1Validator,
-			password2: password2Validator,
+			password1: [password1Validator],
+			password2: [password2Validator],
 		},
 	}
 }

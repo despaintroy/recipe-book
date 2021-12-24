@@ -23,8 +23,8 @@ export const getInitialFormState = (): FormState<Fields> => {
 	return {
 		...newFormState(fieldsArray),
 		validators: {
-			email: emailValidator,
-			password: passwordValidator,
+			email: [emailValidator],
+			password: [passwordValidator],
 		},
 	}
 }
