@@ -6,15 +6,12 @@ import {
 	FormikTextField,
 	SubmitButton,
 } from 'ts/components/FormComponents'
+import { createSubmitHandler } from 'ts/utils/helpers'
 import Paths from 'ts/utils/paths'
 
 import { Box, Link } from '@mui/material'
 
-import {
-	getHandleSubmitFunction,
-	initialValues,
-	validationSchema,
-} from './controller'
+import { handleSubmit, initialValues, validationSchema } from './controller'
 
 export default function SignInForm(): React.ReactElement {
 	const [formError, setFormError] = React.useState('')
@@ -22,7 +19,7 @@ export default function SignInForm(): React.ReactElement {
 	const formik = useFormik({
 		initialValues: initialValues,
 		validationSchema: validationSchema,
-		onSubmit: getHandleSubmitFunction(setFormError),
+		onSubmit: createSubmitHandler(handleSubmit, setFormError),
 	})
 
 	return (
