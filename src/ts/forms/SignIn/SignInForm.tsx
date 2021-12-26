@@ -1,68 +1,64 @@
 import React from 'react'
 
-import { FormErrorMessage, FormTextField } from 'ts/components/FormComponents'
-import { signIn } from 'ts/services/auth'
-import { getMessage } from 'ts/services/errors'
+import { useFormik } from 'formik'
+import { FormErrorMessage } from 'ts/components/FormComponents'
 import Paths from 'ts/utils/paths'
 
 import { LoadingButton } from '@mui/lab'
-import { Box, Link } from '@mui/material'
+import { Box, Link, TextField } from '@mui/material'
 
-import { getInitialFormState } from './validation'
+import {
+	getHandleSubmitFunction,
+	initialValues,
+	validationSchema,
+} from './controller'
 
 export default function SignInForm(): React.ReactElement {
-	const [submitting, setSubmitting] = React.useState(false)
+	const [formError, setFormError] = React.useState('')
 
-	const [formState, setFormState] = React.useState(getInitialFormState())
-
-	function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
-		event.preventDefault()
-
-		setFormState(state => {
-			state.beforeSubmit()
-			return { ...state }
-		})
-
-		if (!formState.formValid) return
-
-		setSubmitting(true)
-
-		signIn(formState.values.email, formState.values.password)
-			.catch(e =>
-				setFormState(state => {
-					return { ...state, formMessage: getMessage(e) }
-				})
-			)
-			.finally(() => setSubmitting(false))
-	}
+	const formik = useFormik({
+		initialValues: initialValues,
+		validationSchema: validationSchema,
+		onSubmit: getHandleSubmitFunction(setFormError),
+	})
 
 	return (
 		<Box
 			component='form'
-			onSubmit={handleSubmit}
+			onSubmit={formik.handleSubmit}
 			noValidate
 			sx={{ mt: 1, width: '100%' }}
 		>
-			<FormTextField
+			<TextField
+				fullWidth
+				margin='normal'
+				id='email'
+				name='email'
 				label='Email'
-				fieldName='email'
-				formState={formState}
-				setFormState={setFormState}
-				autoComplete='email'
+				type='email'
+				value={formik.values.email}
+				onChange={formik.handleChange}
+				error={formik.touched.email && Boolean(formik.errors.email)}
+				helperText={formik.touched.email && formik.errors.email}
 			/>
-			<FormTextField
-				type='password'
+			<TextField
+				fullWidth
+				margin='normal'
+				id='password'
+				name='password'
 				label='Password'
-				fieldName='password'
-				formState={formState}
-				setFormState={setFormState}
+				type='password'
 				autoComplete='current-password'
+				value={formik.values.password}
+				onChange={formik.handleChange}
+				error={formik.touched.password && Boolean(formik.errors.password)}
+				helperText={formik.touched.password && formik.errors.password}
 			/>
 
-			<FormErrorMessage formState={formState} />
+			<FormErrorMessage message={formError} />
 
 			<LoadingButton
-				loading={submitting}
+				loading={formik.isSubmitting}
 				type='submit'
 				fullWidth
 				variant='contained'
@@ -71,7 +67,7 @@ export default function SignInForm(): React.ReactElement {
 				Sign In
 			</LoadingButton>
 			<Link href={Paths.signUp} variant='body2'>
-				{"Don't have an account? Sign Up"}
+				{`Don't have an account? Sign Up`}
 			</Link>
 		</Box>
 	)
