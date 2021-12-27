@@ -6,11 +6,15 @@ import {
 	FormikTextField,
 	SubmitButton,
 } from 'ts/components/FormComponents'
-import { createSubmitHandler } from 'ts/utils/helpers'
 
 import { Box } from '@mui/system'
 
-import { initialValues, submit, validationSchema } from './controller'
+import {
+	FormValues,
+	initialValues,
+	submit,
+	validationSchema,
+} from './controller'
 
 export default function ChangePasswordForm(): React.ReactElement {
 	const [formError, setFormError] = React.useState('')
@@ -18,7 +22,14 @@ export default function ChangePasswordForm(): React.ReactElement {
 	const formik = useFormik({
 		initialValues: initialValues,
 		validationSchema: validationSchema,
-		onSubmit: createSubmitHandler(submit, setFormError),
+		onSubmit: (values: FormValues): Promise<void> => {
+			return submit(values)
+				.then(() => formik.resetForm())
+				.catch(error => {
+					setFormError(error.message)
+					formik.resetForm()
+				})
+		},
 	})
 
 	return (
@@ -47,6 +58,7 @@ export default function ChangePasswordForm(): React.ReactElement {
 			<SubmitButton
 				isSubmitting={formik.isSubmitting}
 				buttonText='Change Password'
+				disabled={!formik.values.password1 && !formik.values.password2}
 			/>
 		</Box>
 	)

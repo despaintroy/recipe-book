@@ -1,6 +1,3 @@
-import { useContext } from 'react'
-
-import { UserContext } from 'MainAuthorized'
 import { getMessage } from 'ts/services/errors'
 import { updatePassword } from 'ts/services/user'
 import * as yup from 'yup'
@@ -27,9 +24,7 @@ export const validationSchema = yup.object({
 })
 
 export function submit(values: FormValues): Promise<void> {
-	const { updateUser } = useContext(UserContext)
-
-	return updatePassword(values.password1)
-		.then(() => updateUser())
-		.catch(e => Promise.reject(new Error(getMessage(e))))
+	return updatePassword(values.password1).catch(e =>
+		Promise.reject(new Error(getMessage(e)))
+	)
 }

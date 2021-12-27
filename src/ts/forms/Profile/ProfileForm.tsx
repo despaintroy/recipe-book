@@ -7,7 +7,6 @@ import {
 	FormikTextField,
 	SubmitButton,
 } from 'ts/components/FormComponents'
-import { getMessage } from 'ts/services/errors'
 
 import { Box } from '@mui/system'
 
@@ -29,7 +28,7 @@ export default function ProfileForm(): React.ReactElement {
 		onSubmit: (values: FormValues): Promise<void> =>
 			submit(values, user)
 				.then(() => updateUser())
-				.catch(error => setFormError(getMessage(error))),
+				.catch(error => setFormError(error.message)),
 	})
 
 	useEffect(
