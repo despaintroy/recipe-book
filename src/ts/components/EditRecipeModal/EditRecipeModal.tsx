@@ -50,7 +50,7 @@ export default function EditRecipeModal(props: {
 					</Typography>
 				</Toolbar>
 			</AppBar>
-			<Container maxWidth='sm' sx={{ pt: 10 }}>
+			<Container maxWidth='sm' sx={{ pt: 10, pb: 4 }}>
 				<EditRecipeForm
 					recipe={recipe}
 					recipeRef={recipeRef}

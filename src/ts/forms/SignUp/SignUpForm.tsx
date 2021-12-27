@@ -32,7 +32,7 @@ export default function SignUpForm(): React.ReactElement {
 			component='form'
 			onSubmit={formik.handleSubmit}
 			noValidate
-			sx={{ mt: 1, width: '100%' }}
+			sx={{ width: '100%' }}
 		>
 			<FormikTextField formik={formik} fieldName='name' label='Name' />
 			<FormikTextField formik={formik} fieldName='email' label='Email' />
