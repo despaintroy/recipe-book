@@ -44,7 +44,10 @@ export default function ChangePasswordForm(): React.ReactElement {
 			/>
 
 			<FormErrorMessage message={formError} />
-			<SubmitButton isSubmitting={formik.isSubmitting} />
+			<SubmitButton
+				isSubmitting={formik.isSubmitting}
+				buttonText='Change Password'
+			/>
 		</Box>
 	)
 }

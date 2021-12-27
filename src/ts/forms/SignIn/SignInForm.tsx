@@ -39,7 +39,7 @@ export default function SignInForm(): React.ReactElement {
 			/>
 
 			<FormErrorMessage message={formError} />
-			<SubmitButton isSubmitting={formik.isSubmitting} />
+			<SubmitButton isSubmitting={formik.isSubmitting} buttonText='Sign In' />
 
 			<Link href={Paths.signUp} variant='body2'>
 				{`Don't have an account? Sign Up`}
