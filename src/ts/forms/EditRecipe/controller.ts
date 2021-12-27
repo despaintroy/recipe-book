@@ -13,7 +13,7 @@ export interface FormValues {
 }
 
 export const validationSchema = yup.object({
-	name: yup.string().required('Name is required'),
+	name: yup.string().required('Required'),
 	description: yup.string().optional(),
 	url: yup.string().url().optional(),
 	recipeYield: yup.string().optional(),

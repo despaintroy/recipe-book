@@ -17,18 +17,15 @@ export const initialValues: FormValues = {
 }
 
 export const validationSchema = yup.object({
-	name: yup.string().required('Name is required'),
-	email: yup
-		.string()
-		.email('Enter a valid email')
-		.required('Email is required'),
+	name: yup.string().required('Required'),
+	email: yup.string().email('Enter a valid email').required('Required'),
 	password1: yup
 		.string()
-		.required('Password is required')
+		.required('Required')
 		.min(8, 'Password must be at least 8 characters long'),
 	password2: yup
 		.string()
-		.required('Password is required')
+		.required('Required')
 		.equals([yup.ref('password1')], 'Passwords do not match'),
 })
 

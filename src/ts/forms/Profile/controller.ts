@@ -9,8 +9,8 @@ export interface FormValues {
 }
 
 export const validationSchema = yup.object({
-	name: yup.string().required('Name is required'),
-	email: yup.string().required('Email is required').email('Email is invalid'),
+	name: yup.string().required('Required'),
+	email: yup.string().required('Required').email('Email is invalid'),
 })
 
 export function submit(values: FormValues, user: User): Promise<void> {
