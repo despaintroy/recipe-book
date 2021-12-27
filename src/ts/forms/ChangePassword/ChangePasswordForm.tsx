@@ -1,73 +1,50 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
-import { UserContext } from 'MainAuthorized'
-import { FormErrorMessage, FormTextField } from 'ts/components/FormComponents'
-import { getMessage } from 'ts/services/errors'
-import { updatePassword } from 'ts/services/user'
+import { useFormik } from 'formik'
+import {
+	FormErrorMessage,
+	FormikTextField,
+	SubmitButton,
+} from 'ts/components/FormComponents'
+import { createSubmitHandler } from 'ts/utils/helpers'
 
-import { LoadingButton } from '@mui/lab'
 import { Box } from '@mui/system'
 
-import { getInitialFormState } from './validation'
+import { initialValues, submit, validationSchema } from './controller'
 
 export default function ChangePasswordForm(): React.ReactElement {
-	const { updateUser } = useContext(UserContext)
-	const [submitting, setSubmitting] = React.useState(false)
-	const [formState, setFormState] = React.useState(getInitialFormState())
+	const [formError, setFormError] = React.useState('')
 
-	function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
-		event.preventDefault()
-
-		setFormState(state => {
-			state.beforeSubmit()
-			return { ...state }
-		})
-
-		if (!formState.formValid) return
-
-		setSubmitting(true)
-
-		updatePassword(formState.values.password1)
-			.then(() => updateUser())
-			.catch(e =>
-				setFormState(state => {
-					return { ...state, formMessage: getMessage(e) }
-				})
-			)
-			.finally(() => setSubmitting(false))
-	}
+	const formik = useFormik({
+		initialValues: initialValues,
+		validationSchema: validationSchema,
+		onSubmit: createSubmitHandler(submit, setFormError),
+	})
 
 	return (
-		<Box component='form' onSubmit={handleSubmit} noValidate>
-			<FormTextField
-				label='New Password'
+		<Box
+			component='form'
+			onSubmit={formik.handleSubmit}
+			noValidate
+			sx={{ mt: 1, width: '100%' }}
+		>
+			<FormikTextField
+				formik={formik}
 				fieldName='password1'
-				autoComplete='new-password'
+				label='New Password'
 				type='password'
-				formState={formState}
-				setFormState={setFormState}
+				autoComplete='new-password'
 			/>
-			<FormTextField
-				label='Confirm New Password'
+			<FormikTextField
+				formik={formik}
 				fieldName='password2'
-				autoComplete='new-password'
+				label='Confirm New Password'
 				type='password'
-				formState={formState}
-				setFormState={setFormState}
+				autoComplete='new-password'
 			/>
 
-			<FormErrorMessage formState={formState} />
-
-			<LoadingButton
-				type='submit'
-				disabled={!(formState.values.password1 && formState.values.password2)}
-				loading={submitting}
-				fullWidth
-				variant='contained'
-				sx={{ mt: 2 }}
-			>
-				Change Password
-			</LoadingButton>
+			<FormErrorMessage message={formError} />
+			<SubmitButton isSubmitting={formik.isSubmitting} />
 		</Box>
 	)
 }

@@ -20,7 +20,7 @@ export const validationSchema = yup.object({
 	password: yup.string().required('Password is required'),
 })
 
-export function handleSubmit(values: FormValues): Promise<void> {
+export function submit(values: FormValues): Promise<void> {
 	return signIn(values.email, values.password).catch(e =>
 		Promise.reject(new Error(getMessage(e)))
 	)

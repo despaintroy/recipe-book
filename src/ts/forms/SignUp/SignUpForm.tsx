@@ -11,7 +11,7 @@ import Paths from 'ts/utils/paths'
 
 import { Box, Link } from '@mui/material'
 
-import { handleSubmit, initialValues, validationSchema } from './controller'
+import { initialValues, submit, validationSchema } from './controller'
 
 export default function SignUpForm(): React.ReactElement {
 	const [formError, setFormError] = React.useState('')
@@ -19,7 +19,7 @@ export default function SignUpForm(): React.ReactElement {
 	const formik = useFormik({
 		initialValues: initialValues,
 		validationSchema: validationSchema,
-		onSubmit: createSubmitHandler(handleSubmit, setFormError),
+		onSubmit: createSubmitHandler(submit, setFormError),
 	})
 
 	return (
