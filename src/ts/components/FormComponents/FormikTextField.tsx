@@ -9,6 +9,13 @@ export interface FormikTextFieldProps<Values> extends BaseTextFieldProps {
 	fieldName: keyof Values
 }
 
+FormikTextField.defaultProps = {
+	variant: 'standard',
+	margin: 'normal',
+	fullWidth: true,
+	type: 'text',
+}
+
 export default function FormikTextField<Values>(
 	props: FormikTextFieldProps<Values>
 ): React.ReactElement {
@@ -17,11 +24,12 @@ export default function FormikTextField<Values>(
 	return (
 		<TextField
 			{...rest}
-			fullWidth={rest.fullWidth ?? true}
-			margin={rest.margin ?? 'normal'}
+			fullWidth={rest.fullWidth}
+			margin={rest.margin}
 			id={rest.id ?? fieldName.toString()}
 			name={fieldName.toString()}
-			type={rest.type ?? 'text'}
+			type={rest.type}
+			variant={rest.variant}
 			value={formik.values[fieldName]}
 			onChange={formik.handleChange}
 			error={formik.touched[fieldName] && !!formik.errors[fieldName]}
