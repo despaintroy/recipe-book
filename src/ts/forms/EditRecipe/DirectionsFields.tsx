@@ -58,6 +58,7 @@ export default function DirectionsFields(props: {
 							multiline
 							type='text'
 							defaultValue={direction}
+							placeholder='New step'
 							name={`recipeDirections.${index}`}
 							sx={{ my: 1 }}
 							onChange={(e): void => {
@@ -74,7 +75,7 @@ export default function DirectionsFields(props: {
 							onBlur={(): void => {
 								setTimeout(
 									() => setFocusedField(f => (f === index ? null : f)),
-									100
+									300
 								)
 							}}
 							endAdornment={
@@ -104,7 +105,11 @@ export default function DirectionsFields(props: {
 				Directions
 			</Typography>
 			{renderList()}
-			<Button onClick={handleAddDirection} startIcon={<Icon>add</Icon>}>
+			<Button
+				onClick={handleAddDirection}
+				startIcon={<Icon>add</Icon>}
+				disabled={directions[directions.length - 1] === ''}
+			>
 				Add Step
 			</Button>
 		</>

@@ -8,7 +8,7 @@ import {
 } from 'ts/components/FormComponents'
 import { Recipe, RecipeRef } from 'ts/utils/models'
 
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 import { FormValues, submit, validationSchema } from './controller'
 import DirectionsFields from './DirectionsFields'
@@ -72,6 +72,10 @@ export default function EditRecipeForm(props: {
 				type='url'
 			/>
 			<FormikTextField formik={formik} fieldName='recipeYield' label='Makes' />
+
+			<Typography variant='h2' sx={{ mt: 4 }}>
+				Time
+			</Typography>
 			<FormikTextField
 				formik={formik}
 				fieldName='totalTime'

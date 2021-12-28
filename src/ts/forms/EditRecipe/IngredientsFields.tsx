@@ -47,7 +47,7 @@ export default function IngredientsFields(props: {
 		return (
 			<Box sx={{ mt: 2 }}>
 				{ingredients.length === 0 && <Typography>No ingredients</Typography>}
-				<ul>
+				<ul style={{ margin: 0 }}>
 					{ingredients.map((ingredient, index) => (
 						<li key={index}>
 							<Input
@@ -55,6 +55,7 @@ export default function IngredientsFields(props: {
 								multiline
 								type='text'
 								defaultValue={ingredient}
+								placeholder='New ingredient'
 								name={`recipeIngredients.${index}`}
 								disableUnderline={focusedField !== index}
 								onChange={(e): void => {
@@ -71,7 +72,7 @@ export default function IngredientsFields(props: {
 								onBlur={(): void => {
 									setTimeout(
 										() => setFocusedField(f => (f === index ? null : f)),
-										100
+										300
 									)
 								}}
 								endAdornment={
@@ -102,7 +103,11 @@ export default function IngredientsFields(props: {
 				Ingredients
 			</Typography>
 			{renderList()}
-			<Button onClick={handleAddIngredient} startIcon={<Icon>add</Icon>}>
+			<Button
+				onClick={handleAddIngredient}
+				startIcon={<Icon>add</Icon>}
+				disabled={ingredients[ingredients.length - 1] === ''}
+			>
 				Add Ingredient
 			</Button>
 		</>
