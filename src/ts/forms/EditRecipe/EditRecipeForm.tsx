@@ -11,6 +11,7 @@ import { Recipe, RecipeRef } from 'ts/utils/models'
 import { Box } from '@mui/material'
 
 import { FormValues, submit, validationSchema } from './controller'
+import IngredientsFields from './IngredientsFields'
 
 export default function EditRecipeForm(props: {
 	recipe: Recipe
@@ -28,6 +29,7 @@ export default function EditRecipeForm(props: {
 		totalTime: recipe.totalTime ?? '',
 		prepTime: recipe.prepTime ?? '',
 		cookTime: recipe.cookTime ?? '',
+		recipeIngredients: recipe.recipeIngredients ?? [],
 	}
 
 	const formik = useFormik({
@@ -39,12 +41,16 @@ export default function EditRecipeForm(props: {
 				.catch(error => setFormError(error.message)),
 	})
 
+	const handleUpdateIngredients = (recipeIngredients: string[]): void => {
+		formik.setFieldValue('recipeIngredients', recipeIngredients)
+	}
+
 	return (
 		<Box
 			component='form'
 			onSubmit={formik.handleSubmit}
 			noValidate
-			sx={{ mt: 1, width: '100%' }}
+			sx={{ width: '100%' }}
 		>
 			<FormikTextField formik={formik} fieldName='name' label='Recipe Name' />
 			<FormikTextField
@@ -67,6 +73,11 @@ export default function EditRecipeForm(props: {
 			/>
 			<FormikTextField formik={formik} fieldName='prepTime' label='Prep Time' />
 			<FormikTextField formik={formik} fieldName='cookTime' label='Cook Time' />
+
+			<IngredientsFields
+				ingredients={formik.values.recipeIngredients}
+				onChange={handleUpdateIngredients}
+			/>
 
 			<FormErrorMessage message={formError} />
 			<SubmitButton
