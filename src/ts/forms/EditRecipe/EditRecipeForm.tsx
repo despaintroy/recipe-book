@@ -11,6 +11,7 @@ import { Recipe, RecipeRef } from 'ts/utils/models'
 import { Box } from '@mui/material'
 
 import { FormValues, submit, validationSchema } from './controller'
+import DirectionsFields from './DirectionsFields'
 import IngredientsFields from './IngredientsFields'
 
 export default function EditRecipeForm(props: {
@@ -30,6 +31,7 @@ export default function EditRecipeForm(props: {
 		prepTime: recipe.prepTime ?? '',
 		cookTime: recipe.cookTime ?? '',
 		recipeIngredients: recipe.recipeIngredients ?? [],
+		recipeInstructions: recipe.recipeInstructions ?? [],
 	}
 
 	const formik = useFormik({
@@ -43,6 +45,10 @@ export default function EditRecipeForm(props: {
 
 	const handleUpdateIngredients = (recipeIngredients: string[]): void => {
 		formik.setFieldValue('recipeIngredients', recipeIngredients)
+	}
+
+	const handleUpdateDirections = (recipeInstructions: string[]): void => {
+		formik.setFieldValue('recipeInstructions', recipeInstructions)
 	}
 
 	return (
@@ -77,6 +83,11 @@ export default function EditRecipeForm(props: {
 			<IngredientsFields
 				ingredients={formik.values.recipeIngredients}
 				onChange={handleUpdateIngredients}
+			/>
+
+			<DirectionsFields
+				directions={formik.values.recipeInstructions}
+				onChange={handleUpdateDirections}
 			/>
 
 			<FormErrorMessage message={formError} />

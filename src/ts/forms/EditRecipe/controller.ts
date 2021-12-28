@@ -11,6 +11,7 @@ export interface FormValues {
 	prepTime: string
 	cookTime: string
 	recipeIngredients: string[]
+	recipeInstructions: string[]
 }
 
 export const validationSchema = yup.object({
