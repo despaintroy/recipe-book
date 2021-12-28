@@ -3,12 +3,15 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { getBookByID, updateBook } from './book'
 
-export async function addRecipe(bookID: string, recipe: Recipe): Promise<void> {
+export async function addRecipe(
+	bookID: string,
+	recipe: Recipe
+): Promise<string> {
 	const book = await getBookByID(bookID)
 	if (!book) return Promise.reject()
 	recipe.id = uuidv4()
 	const recipes = (book.recipes || []).concat(recipe)
-	return updateBook(bookID, { recipes: recipes })
+	return updateBook(bookID, { recipes: recipes }).then(() => recipe.id)
 }
 
 export type UpdateRecipeParams = Partial<Exclude<Recipe, 'id'>>

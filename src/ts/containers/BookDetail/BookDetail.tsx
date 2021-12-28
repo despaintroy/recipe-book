@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 
 import { BookContext } from 'MainAuthorized'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import AddRecipeModal from 'ts/components/AddRecipeModal'
 import RecipeList from 'ts/components/RecipeList'
 import { getBookByID } from 'ts/services/book'
+import Paths from 'ts/utils/paths'
 
 import {
 	Alert,
@@ -21,6 +22,7 @@ export default function BookDetail(): React.ReactElement {
 	const [showNewRecipeModal, setShowNewRecipeModal] = React.useState(false)
 	const { book, refreshBook, setBook } = React.useContext(BookContext)
 	const [loading, setLoading] = React.useState(false)
+	const history = useHistory()
 
 	useEffect(() => {
 		if (!book || book.id !== urlParams.id) {
@@ -68,7 +70,10 @@ export default function BookDetail(): React.ReactElement {
 				bookID={book.id}
 				open={showNewRecipeModal}
 				handleClose={(): void => setShowNewRecipeModal(false)}
-				onAdd={refreshBook}
+				onAdd={(recipeID): void => {
+					refreshBook()
+					history.push(Paths.getRecipeDetailLink(recipeID))
+				}}
 			/>
 		</Container>
 	)

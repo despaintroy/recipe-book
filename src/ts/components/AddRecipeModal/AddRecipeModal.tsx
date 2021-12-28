@@ -27,7 +27,7 @@ export default function AddRecipeModal(props: {
 	bookID: string
 	open: boolean
 	handleClose: () => void
-	onAdd: (recipe: Recipe) => void
+	onAdd: (recipeID: string) => void
 }): React.ReactElement {
 	const { bookID, open, handleClose, onAdd } = props
 	const [recipe, setRecipe] = React.useState<Recipe | null>()
@@ -47,8 +47,8 @@ export default function AddRecipeModal(props: {
 		setSubmitting(true)
 
 		addRecipe(bookID, recipe)
-			.then(() => {
-				onAdd(recipe)
+			.then(recipeID => {
+				onAdd(recipeID)
 				handleClose()
 			})
 			.catch(() => setError('Error adding recipe'))
