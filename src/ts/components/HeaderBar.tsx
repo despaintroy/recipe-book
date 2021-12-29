@@ -92,6 +92,9 @@ export default function HeaderBar(): React.ReactElement {
 							<MenuItem component={Link} to={Paths.account} onClick={closeMenu}>
 								Account
 							</MenuItem>
+							<MenuItem onClick={(): void => window.location.reload()}>
+								Refresh
+							</MenuItem>
 							<MenuItem onClick={signOut}>Sign Out</MenuItem>
 						</Menu>
 					</div>
