@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect } from 'react'
 
 import useList from 'ts/hooks/useList'
-import { v4 as uuidv4 } from 'uuid'
+import { createKeyedValue, getValues, toKeyedValues } from 'ts/utils/helpers'
 
 import {
 	Icon,
@@ -12,43 +12,23 @@ import {
 } from '@mui/material'
 import { Box } from '@mui/system'
 
-interface KeyedIngredient {
-	key: string
-	value: string
-}
-
-function addKeys(ingredients: string[]): KeyedIngredient[] {
-	return ingredients.map(ingredient => createKeyedIngredient(ingredient))
-}
-
-function getValues(ingredients: KeyedIngredient[]): string[] {
-	return ingredients.map(ing => ing.value).filter(ing => ing !== '')
-}
-
-function createKeyedIngredient(value = ''): KeyedIngredient {
-	return {
-		key: uuidv4(),
-		value,
-	}
-}
-
 export default function IngredientsFields(props: {
 	ingredients: string[]
 	onChange: (ingredients: string[]) => void
 }): React.ReactElement {
 	const [focusedField, setFocusedField] = React.useState<number | null>(null)
 	const [items, insertItem, modifyItem, removeItem] = useList(
-		addKeys(props.ingredients.concat(['']))
+		toKeyedValues(props.ingredients.concat(['']))
 	)
 
 	useEffect(() => {
-		props.onChange(getValues(items))
+		props.onChange(getValues(items).filter(ingredient => ingredient !== ''))
 
 		const lastIndex = items.length - 1
 
 		// Add a new field if the last one is not empty
 		if (items[lastIndex].value !== '') {
-			insertItem(items.length, createKeyedIngredient())
+			insertItem(items.length, createKeyedValue(''))
 			return
 		}
 
@@ -99,7 +79,7 @@ export default function IngredientsFields(props: {
 										e.preventDefault()
 										if (items[index + 1]?.value === '') focusInput(index + 1)
 										else if (index != items.length - 1) {
-											insertItem(index + 1, createKeyedIngredient())
+											insertItem(index + 1, createKeyedValue(''))
 											setFocusedField(index + 1)
 										}
 									}
