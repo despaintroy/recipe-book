@@ -11,8 +11,7 @@ import { Recipe, RecipeRef } from 'ts/utils/models'
 import { Box, Typography } from '@mui/material'
 
 import { FormValues, submit, validationSchema } from './controller'
-import DirectionsFields from './DirectionsFields'
-import IngredientsFields from './IngredientsFields'
+import TextListInput from './TextListInput'
 
 export default function EditRecipeForm(props: {
 	recipe: Recipe
@@ -84,14 +83,25 @@ export default function EditRecipeForm(props: {
 			<FormikTextField formik={formik} fieldName='prepTime' label='Prep Time' />
 			<FormikTextField formik={formik} fieldName='cookTime' label='Cook Time' />
 
-			<IngredientsFields
-				ingredients={formik.values.recipeIngredients}
+			<Typography variant='h2' sx={{ mt: 4, mb: 2 }}>
+				Ingredients
+			</Typography>
+			<TextListInput
+				initialList={formik.values.recipeIngredients}
+				uniquePrefix='recipeIngredients'
 				onChange={handleUpdateIngredients}
+				itemName='ingredient'
 			/>
 
-			<DirectionsFields
-				directions={formik.values.recipeInstructions}
+			<Typography variant='h2' sx={{ mt: 4, mb: 2 }}>
+				Directions
+			</Typography>
+			<TextListInput
+				initialList={formik.values.recipeInstructions}
+				uniquePrefix='recipeDirections'
 				onChange={handleUpdateDirections}
+				itemName='step'
+				variant='outlined'
 			/>
 
 			<FormErrorMessage message={formError} />

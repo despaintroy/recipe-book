@@ -1,6 +1,7 @@
 import React from 'react'
 
 import ReactHtmlParser from 'react-html-parser'
+import { lastIndex } from 'ts/utils/helpers'
 
 import {
 	Timeline,
@@ -50,7 +51,7 @@ export default function Directions(props: {
 					</TimelineOppositeContent>
 					<TimelineSeparator>
 						<TimelineDot />
-						{idx < recipeInstructions.length - 1 && <TimelineConnector />}
+						{idx < lastIndex(recipeInstructions) && <TimelineConnector />}
 					</TimelineSeparator>
 					<TimelineContent>{ReactHtmlParser(instruction)}</TimelineContent>
 				</TimelineItem>

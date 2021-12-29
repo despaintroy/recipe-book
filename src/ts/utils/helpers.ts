@@ -19,3 +19,7 @@ export function createKeyedValue<T>(value: T): KeyedValue<T> {
 		value,
 	}
 }
+
+export function lastIndex<T>(values: T[]): number {
+	return values.length - 1
+}
