@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom'
 import SignIn from 'ts/containers/SignIn'
 import SignUp from 'ts/containers/SignUp'
-import Paths from 'ts/utils/paths'
+import UnauthPaths from 'ts/utils/paths'
 
 import { Box } from '@mui/system'
 
@@ -17,12 +17,12 @@ function MainUnauthorized(): React.ReactElement {
 		<Box className='App'>
 			<Router basename='/'>
 				<Switch>
-					<Route exact path={Paths.signIn} component={SignIn} />
-					<Route exact path={Paths.signUp} component={SignUp} />
+					<Route exact path={UnauthPaths.signIn} component={SignIn} />
+					<Route exact path={UnauthPaths.signUp} component={SignUp} />
 
 					{/* Default redirect */}
 					<Route path='/'>
-						<Redirect to={Paths.signIn} />
+						<Redirect to={UnauthPaths.signIn} />
 					</Route>
 				</Switch>
 			</Router>
