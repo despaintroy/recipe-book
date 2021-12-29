@@ -54,7 +54,7 @@ export default function BookListItem(props: {
 					</ListItemAvatar> */}
 					<ListItemText
 						primary={<Typography variant='h3'>{book.title}</Typography>}
-						secondary={`${book.recipes?.length ?? 0} recipes`}
+						secondary={`${book.recipes.length ?? 0} recipes`}
 					/>
 				</ListItemButton>
 			</ListItem>

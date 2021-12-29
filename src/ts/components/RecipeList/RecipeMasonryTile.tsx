@@ -21,7 +21,7 @@ export default function RecipeMasonryTile(props: {
 		<Card sx={{ my: 1, display: 'inline-block', width: '100%' }}>
 			<CardActionArea
 				component={Link}
-				to={Paths.getRecipeDetailLink(recipe.id)}
+				to={Paths.getRecipeDetailLink(recipe.bookID, recipe.id)}
 			>
 				<CardMedia
 					component={recipe.image ? 'img' : 'div'}

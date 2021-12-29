@@ -25,16 +25,19 @@ export interface RecipeResponse {
 }
 export interface Recipe extends RecipeResponse {
 	id: string
+	bookID: string
+}
+
+export interface BookResponse {
+	id: string
+	title: string
+	recipes?: Omit<Recipe, 'bookID'>[]
+	created?: number
 }
 
 export interface Book {
 	id: string
 	title: string
-	recipes?: Recipe[]
+	recipes: Recipe[]
 	created?: number
-}
-
-export type RecipeRef = {
-	bookID: string
-	recipeID: string
 }

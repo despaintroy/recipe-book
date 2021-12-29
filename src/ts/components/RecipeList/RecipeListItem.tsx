@@ -23,7 +23,7 @@ export default function RecipeListItem(props: {
 			<ListItem dense disablePadding>
 				<ListItemButton
 					component={Link}
-					to={Paths.getRecipeDetailLink(recipe.id)}
+					to={Paths.getRecipeDetailLink(recipe.bookID, recipe.id)}
 					sx={{ mx: 0, py: 0 }}
 				>
 					<ListItemAvatar>

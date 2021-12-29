@@ -1,4 +1,4 @@
-import { Recipe, RecipeRef } from 'ts/utils/models'
+import { Recipe } from 'ts/utils/models'
 import { v4 as uuidv4 } from 'uuid'
 
 import { getBookByID, updateBook } from './book'
@@ -17,11 +17,12 @@ export async function addRecipe(
 export type UpdateRecipeParams = Partial<Exclude<Recipe, 'id'>>
 
 export const updateRecipe = async (
-	recipeRef: RecipeRef,
+	bookID: string,
+	recipeID: string,
 	updateFields: UpdateRecipeParams
 ): Promise<void> => {
-	const book = await getBookByID(recipeRef.bookID)
-	const recipe = book?.recipes?.find(r => r.id === recipeRef.recipeID)
+	const book = await getBookByID(bookID)
+	const recipe = book?.recipes.find(r => r.id === recipeID)
 	if (!book || !book.recipes || !recipe) return Promise.reject()
 
 	Object.entries(updateFields).forEach(([key, value]) => {
@@ -29,11 +30,9 @@ export const updateRecipe = async (
 			recipe[key as keyof Recipe] = value as string & string[]
 	})
 
-	const recipes = book.recipes.filter(
-		recipe => recipe.id !== recipeRef.recipeID
-	)
+	const recipes = book.recipes.filter(recipe => recipe.id !== recipeID)
 	recipes.push(recipe)
-	return updateBook(recipeRef.bookID, { recipes: recipes })
+	return updateBook(bookID, { recipes: recipes })
 }
 
 export async function deleteRecipe(

@@ -1,5 +1,4 @@
 import { updateRecipe } from 'ts/services/recipe'
-import { RecipeRef } from 'ts/utils/models'
 import * as yup from 'yup'
 
 export interface FormValues {
@@ -26,9 +25,10 @@ export const validationSchema = yup.object({
 
 export function submit(
 	values: FormValues,
-	recipeRef: RecipeRef
+	bookID: string,
+	recipeID: string
 ): Promise<void> {
-	return updateRecipe(recipeRef, {
+	return updateRecipe(bookID, recipeID, {
 		...values,
 	})
 }

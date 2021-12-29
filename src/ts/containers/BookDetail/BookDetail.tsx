@@ -18,16 +18,16 @@ import {
 } from '@mui/material'
 
 export default function BookDetail(): React.ReactElement {
-	const urlParams = useParams<{ id: string }>()
+	const urlParams = useParams<{ bookID: string }>()
 	const [showNewRecipeModal, setShowNewRecipeModal] = React.useState(false)
 	const { book, refreshBook, setBook } = React.useContext(BookContext)
 	const [loading, setLoading] = React.useState(false)
 	const history = useHistory()
 
 	useEffect(() => {
-		if (!book || book.id !== urlParams.id) {
+		if (!book || book.id !== urlParams.bookID) {
 			setLoading(true)
-			getBookByID(urlParams.id)
+			getBookByID(urlParams.bookID)
 				.then((b): void => setBook(b))
 				.catch(() => setBook(null))
 				.finally(() => setLoading(false))
@@ -72,7 +72,7 @@ export default function BookDetail(): React.ReactElement {
 				handleClose={(): void => setShowNewRecipeModal(false)}
 				onAdd={(recipeID): void => {
 					refreshBook()
-					history.push(Paths.getRecipeDetailLink(recipeID))
+					history.push(Paths.getRecipeDetailLink(urlParams.bookID, recipeID))
 				}}
 			/>
 		</Container>

@@ -6,7 +6,7 @@ import {
 	FormikTextField,
 	SubmitButton,
 } from 'ts/components/FormComponents'
-import { Recipe, RecipeRef } from 'ts/utils/models'
+import { Recipe } from 'ts/utils/models'
 
 import { Box, Typography } from '@mui/material'
 
@@ -15,10 +15,9 @@ import TextListInput from './TextListInput'
 
 export default function EditRecipeForm(props: {
 	recipe: Recipe
-	recipeRef: RecipeRef
 	onSuccess?: () => void
 }): React.ReactElement {
-	const { recipe, recipeRef, onSuccess } = props
+	const { recipe, onSuccess } = props
 	const [formError, setFormError] = React.useState('')
 
 	const initialValues: FormValues = {
@@ -37,7 +36,7 @@ export default function EditRecipeForm(props: {
 		initialValues: initialValues,
 		validationSchema: validationSchema,
 		onSubmit: (values: FormValues): Promise<void> =>
-			submit(values, recipeRef)
+			submit(values, recipe.bookID, recipe.id)
 				.then(() => onSuccess && onSuccess())
 				.catch(error => setFormError(error.message)),
 	})

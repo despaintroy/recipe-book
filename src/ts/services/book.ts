@@ -6,7 +6,7 @@ import {
 	setDoc,
 	updateDoc,
 } from 'firebase/firestore'
-import { Book } from 'ts/utils/models'
+import { Book, BookResponse } from 'ts/utils/models'
 
 import { database } from './firebase'
 import { getUser } from './user'
@@ -41,8 +41,16 @@ export const getAllBooks = async (): Promise<Book[]> => {
 }
 
 export const getBookByID = async (id: string): Promise<Book> => {
-	const book = await getDoc(doc(bookCollection, id))
-	if (book.exists()) return book.data() as Book
+	const b = await getDoc(doc(bookCollection, id))
+	if (b.exists()) {
+		const bookResponse = b.data() as BookResponse
+		return {
+			...bookResponse,
+			recipes:
+				bookResponse.recipes?.map(r => ({ ...r, bookID: bookResponse.id })) ??
+				[],
+		}
+	}
 	return Promise.reject()
 }
 

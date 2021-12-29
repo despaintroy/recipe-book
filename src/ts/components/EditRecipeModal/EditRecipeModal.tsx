@@ -1,7 +1,7 @@
 import React from 'react'
 
 import EditRecipeForm from 'ts/forms/EditRecipe'
-import { Recipe, RecipeRef } from 'ts/utils/models'
+import { Recipe } from 'ts/utils/models'
 
 import CloseIcon from '@mui/icons-material/Close'
 import { Container, Typography } from '@mui/material'
@@ -24,11 +24,10 @@ const Transition = React.forwardRef(function Transition(
 export default function EditRecipeModal(props: {
 	open: boolean
 	recipe: Recipe
-	recipeRef: RecipeRef
 	handleClose: () => void
 	onEdit?: () => void
 }): React.ReactElement {
-	const { open, recipe, recipeRef, handleClose, onEdit } = props
+	const { open, recipe, handleClose, onEdit } = props
 
 	return (
 		<Dialog
@@ -53,7 +52,6 @@ export default function EditRecipeModal(props: {
 			<Container maxWidth='sm' sx={{ pt: 10, pb: 4 }}>
 				<EditRecipeForm
 					recipe={recipe}
-					recipeRef={recipeRef}
 					onSuccess={(): void => {
 						handleClose()
 						onEdit && onEdit()

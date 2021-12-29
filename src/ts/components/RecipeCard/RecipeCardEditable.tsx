@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import ReactHtmlParser from 'react-html-parser'
 import { deleteRecipe } from 'ts/services/recipe'
-import { Recipe, RecipeRef } from 'ts/utils/models'
+import { Recipe } from 'ts/utils/models'
 
 import {
 	Button,
@@ -21,11 +21,10 @@ import Directions from './Directions'
 
 export default function RecipeCardEditable(props: {
 	recipe: Recipe
-	recipeRef: RecipeRef
 	onEdit?: () => void
 	onDelete?: () => void
 }): React.ReactElement {
-	const { recipe, recipeRef, onEdit, onDelete } = props
+	const { recipe, onEdit, onDelete } = props
 	const [showDeleteDialog, setShowDeleteDialog] = useState(false)
 	const [showEditModal, setShowEditModal] = useState(false)
 
@@ -41,7 +40,7 @@ export default function RecipeCardEditable(props: {
 	}
 
 	function handleDelete(): Promise<void> {
-		return deleteRecipe(recipeRef.bookID, recipeRef.recipeID).then(() => {
+		return deleteRecipe(recipe.bookID, recipe.id).then(() => {
 			onDelete && onDelete()
 		})
 	}
@@ -136,7 +135,6 @@ export default function RecipeCardEditable(props: {
 			/>
 			<EditRecipeModal
 				recipe={recipe}
-				recipeRef={recipeRef}
 				open={showEditModal}
 				handleClose={(): void => setShowEditModal(false)}
 				onEdit={onEdit}
