@@ -5,11 +5,11 @@ import { getBookByID, updateBook } from './book'
 
 export async function addRecipe(
 	bookID: string,
-	recipe: Recipe
+	recipeValues: Omit<Recipe, 'id' | 'bookID'>
 ): Promise<string> {
 	const book = await getBookByID(bookID)
 	if (!book) return Promise.reject()
-	recipe.id = uuidv4()
+	const recipe: Recipe = { ...recipeValues, id: uuidv4(), bookID }
 	const recipes = (book.recipes || []).concat(recipe)
 	return updateBook(bookID, { recipes: recipes }).then(() => recipe.id)
 }

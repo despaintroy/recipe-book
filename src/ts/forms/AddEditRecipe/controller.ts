@@ -1,4 +1,4 @@
-import { updateRecipe } from 'ts/services/recipe'
+import { addRecipe, updateRecipe } from 'ts/services/recipe'
 import * as yup from 'yup'
 
 export interface FormValues {
@@ -23,12 +23,21 @@ export const validationSchema = yup.object({
 	cookTime: yup.string().optional(),
 })
 
-export function submit(
+export function submitEdit(
 	values: FormValues,
 	bookID: string,
 	recipeID: string
 ): Promise<void> {
 	return updateRecipe(bookID, recipeID, {
+		...values,
+	})
+}
+
+export function submitCreate(
+	values: FormValues,
+	bookID: string
+): Promise<string> {
+	return addRecipe(bookID, {
 		...values,
 	})
 }

@@ -10,14 +10,16 @@ import { Recipe } from 'ts/utils/models'
 
 import { Box, Typography } from '@mui/material'
 
-import { FormValues, submit, validationSchema } from './controller'
+import { FormValues, validationSchema } from './controller'
 import TextListInput from './TextListInput'
 
 export default function BaseForm(props: {
-	recipe: Recipe
+	recipe: Partial<Recipe>
+	handleSubmit: (values: FormValues) => Promise<void>
+	submitButtonText?: string
 	onSuccess?: () => void
 }): React.ReactElement {
-	const { recipe, onSuccess } = props
+	const { recipe, handleSubmit, submitButtonText, onSuccess } = props
 	const [formError, setFormError] = React.useState('')
 
 	const initialValues: FormValues = {
@@ -36,7 +38,7 @@ export default function BaseForm(props: {
 		initialValues: initialValues,
 		validationSchema: validationSchema,
 		onSubmit: (values: FormValues): Promise<void> =>
-			submit(values, recipe.bookID, recipe.id)
+			handleSubmit(values)
 				.then(() => onSuccess && onSuccess())
 				.catch(error => setFormError(error.message)),
 	})
@@ -106,7 +108,7 @@ export default function BaseForm(props: {
 			<FormErrorMessage message={formError} />
 			<SubmitButton
 				isSubmitting={formik.isSubmitting}
-				buttonText='Save Changes'
+				buttonText={submitButtonText ?? 'Submit'}
 			/>
 		</Box>
 	)

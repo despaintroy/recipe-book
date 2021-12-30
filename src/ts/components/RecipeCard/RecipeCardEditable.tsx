@@ -35,8 +35,8 @@ export default function RecipeCardEditable(props: {
 	}
 
 	function getDomain(): string {
-		const url = new URL(recipe.url)
-		return url.hostname
+		if (!recipe.url) return ''
+		return new URL(recipe.url).hostname
 	}
 
 	function handleDelete(): Promise<void> {
@@ -60,7 +60,7 @@ export default function RecipeCardEditable(props: {
 					</Typography>
 
 					<Typography variant='body1' sx={{ mb: 2 }}>
-						{ReactHtmlParser(recipe.description)}
+						{ReactHtmlParser(recipe.description || '')}
 					</Typography>
 
 					{(recipe.totalTime || recipe.prepTime || recipe.cookTime) && (

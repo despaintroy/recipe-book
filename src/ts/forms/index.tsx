@@ -1,3 +1,4 @@
+import CreateRecipeForm from './AddEditRecipe/CreateRecipeForm'
 import EditRecipeForm from './AddEditRecipe/EditRecipeForm'
 import ChangePasswordForm from './ChangePassword/ChangePasswordForm'
 import ProfileForm from './Profile/ProfileForm'
@@ -9,5 +10,6 @@ export {
 	ChangePasswordForm,
 	ProfileForm,
 	SignInForm,
-	SignUpForm
+	SignUpForm,
+	CreateRecipeForm
 }

@@ -12,14 +12,14 @@ export interface UserData {
 }
 
 export interface RecipeResponse {
-	url: string
+	url?: string
 	name: string
-	image: string
-	description: string
-	cookTime: string
-	prepTime: string
-	totalTime: string
-	recipeYield: string
+	image?: string
+	description?: string
+	cookTime?: string
+	prepTime?: string
+	totalTime?: string
+	recipeYield?: string
 	recipeIngredients: string[]
 	recipeInstructions: string[]
 }
