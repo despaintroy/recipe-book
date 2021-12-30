@@ -49,10 +49,14 @@ export default function RecipeCardEditable(props: {
 		<>
 			<Card sx={{ my: 2 }}>
 				<CardMedia
-					component='img'
-					height={300}
-					image={recipe.image}
+					component={recipe.image ? 'img' : 'div'}
+					src={recipe.image}
 					alt={recipe.name}
+					sx={{
+						minHeight: '50px',
+						maxHeight: '300px',
+						backgroundColor: 'secondary.main',
+					}}
 				/>
 				<CardContent>
 					<Typography variant='h1' sx={{ mt: 1, mb: 3 }}>

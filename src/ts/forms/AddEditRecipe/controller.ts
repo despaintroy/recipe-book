@@ -21,6 +21,14 @@ export const validationSchema = yup.object({
 	totalTime: yup.string().optional(),
 	prepTime: yup.string().optional(),
 	cookTime: yup.string().optional(),
+	recipeIngredients: yup
+		.array()
+		.of(yup.string().required('Required'))
+		.min(1, 'Must have at least one ingredient'),
+	recipeInstructions: yup
+		.array()
+		.of(yup.string().required('Required'))
+		.min(1, 'Must have at least one step'),
 })
 
 export function submitEdit(

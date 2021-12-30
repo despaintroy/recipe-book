@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect } from 'react'
 
+import { FormErrorMessage } from 'ts/components/FormComponents'
 import useList from 'ts/hooks/useList'
 import {
 	createKeyedValue,
@@ -28,12 +29,14 @@ export interface TextListInputProps {
 	uniquePrefix: string
 	itemName: string
 	variant: variant
+	errorText: string | string[]
 	onChange: (list: string[]) => void
 }
 
 TextListInput.defaultProps = {
 	itemName: 'item',
 	variant: 'bullet',
+	errorText: '',
 }
 
 export default function TextListInput(
@@ -44,6 +47,10 @@ export default function TextListInput(
 	const [items, insertItem, modifyItem, removeItem] = useList(
 		toKeyedValues(initialList.concat(['']))
 	)
+
+	const error = Array.isArray(props.errorText)
+		? props.errorText[0]
+		: props.errorText
 
 	useEffect(() => {
 		onChange(getValues(items).filter(item => item !== ''))
@@ -141,6 +148,7 @@ export default function TextListInput(
 						<OutlinedInput {...makeInputProps(item, index)} sx={{ my: 1 }} />
 					</Box>
 				))}
+				<FormErrorMessage message={error} />
 			</Box>
 		)
 	}
@@ -157,6 +165,7 @@ export default function TextListInput(
 					</li>
 				))}
 			</ul>
+			<FormErrorMessage message={error} />
 		</Box>
 	)
 }

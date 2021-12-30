@@ -18,7 +18,7 @@ export default function CreateRecipeForm(props: {
 		<BaseForm
 			recipe={{}}
 			handleSubmit={handleSubmit}
-			submitButtonText='Save Changes'
+			submitButtonText='Create Recipe'
 		/>
 	)
 }

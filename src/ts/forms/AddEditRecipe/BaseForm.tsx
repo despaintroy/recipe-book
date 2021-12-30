@@ -92,6 +92,7 @@ export default function BaseForm(props: {
 				uniquePrefix='recipeIngredients'
 				onChange={handleUpdateIngredients}
 				itemName='ingredient'
+				errorText={formik.errors.recipeIngredients}
 			/>
 
 			<Typography variant='h2' sx={{ mt: 4, mb: 2 }}>
@@ -103,6 +104,7 @@ export default function BaseForm(props: {
 				onChange={handleUpdateDirections}
 				itemName='step'
 				variant='outlined'
+				errorText={formik.errors.recipeInstructions}
 			/>
 
 			<FormErrorMessage message={formError} />

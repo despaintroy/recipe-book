@@ -13,7 +13,6 @@ import {
 	IconButton,
 	InputBase,
 	Paper,
-	Typography,
 } from '@mui/material'
 import { Box } from '@mui/system'
 
@@ -70,10 +69,6 @@ export default function ImportRecipe(props: {
 
 	return (
 		<Box>
-			<Typography variant='h2' sx={{ mb: 3 }}>
-				Import Recipe
-			</Typography>
-
 			<Paper
 				component='form'
 				onSubmit={handleScrape}
