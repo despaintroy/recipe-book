@@ -1,6 +1,6 @@
 import React from 'react'
 
-import SignInForm from 'ts/forms/SignIn'
+import { SignInForm } from 'ts/forms'
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { Avatar, Box, Container, Paper, Typography } from '@mui/material'

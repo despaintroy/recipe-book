@@ -1,6 +1,6 @@
 import React from 'react'
 
-import EditRecipeForm from 'ts/forms/EditRecipe'
+import { EditRecipeForm } from 'ts/forms'
 import { Recipe } from 'ts/utils/models'
 
 import CloseIcon from '@mui/icons-material/Close'

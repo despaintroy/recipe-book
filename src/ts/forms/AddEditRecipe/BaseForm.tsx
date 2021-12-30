@@ -13,7 +13,7 @@ import { Box, Typography } from '@mui/material'
 import { FormValues, submit, validationSchema } from './controller'
 import TextListInput from './TextListInput'
 
-export default function EditRecipeForm(props: {
+export default function BaseForm(props: {
 	recipe: Recipe
 	onSuccess?: () => void
 }): React.ReactElement {

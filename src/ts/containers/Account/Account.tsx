@@ -1,8 +1,7 @@
 import React from 'react'
 
 import theme from 'theme'
-import ChangePasswordForm from 'ts/forms/ChangePassword'
-import ProfileForm from 'ts/forms/Profile'
+import { ChangePasswordForm, ProfileForm } from 'ts/forms'
 
 import { Container, Paper, Typography } from '@mui/material'
 import { Box } from '@mui/system'
