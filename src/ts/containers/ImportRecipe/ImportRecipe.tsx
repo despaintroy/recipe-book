@@ -1,8 +1,10 @@
-import React, { FormEvent, useEffect } from 'react'
+import React, { FormEvent } from 'react'
 
+import { addRecipe } from 'ts/services/recipe'
 import { scrapeRecipe } from 'ts/services/recipeScrape'
 import { Recipe } from 'ts/utils/models'
 
+import { LoadingButton } from '@mui/lab'
 import {
 	Alert,
 	CircularProgress,
@@ -18,31 +20,52 @@ import { Box } from '@mui/system'
 import ImportPreview from './ImportPreview'
 
 export default function ImportRecipe(props: {
-	setRecipeCallback: (recipe: Recipe | null) => void
+	onAdd: (recipeID: string) => void
+	bookID: string
 }): React.ReactElement {
-	const { setRecipeCallback } = props
+	const { onAdd, bookID } = props
+
+	const [scraping, setScraping] = React.useState(false)
+	const [scrapeError, setScrapeError] = React.useState('')
 	const [url, setUrl] = React.useState('')
 	const [recipe, setRecipe] = React.useState<Recipe | null>(null)
-	const [submitting, setSubmitting] = React.useState(false)
-	const [error, setError] = React.useState('')
 
-	useEffect(() => setRecipeCallback(recipe), [recipe])
+	const [adding, setAdding] = React.useState(false)
+	const [addRecipeError, setAddRecipeError] = React.useState('')
 
-	function onSubmit(e: FormEvent): void {
+	function handleScrape(e: FormEvent): void {
 		e.preventDefault()
-		setError('')
+		setScrapeError('')
 		setRecipe(null)
 
 		if (!url) {
-			setError('Enter a URL')
+			setScrapeError('Enter a URL')
 			return
 		}
 
-		setSubmitting(true)
+		setScraping(true)
 		scrapeRecipe(url)
 			.then((r: Recipe) => setRecipe(r))
-			.catch(() => setError('Unable to import recipe fom URL'))
-			.finally(() => setSubmitting(false))
+			.catch(() => setScrapeError('Unable to import recipe fom URL'))
+			.finally(() => setScraping(false))
+	}
+
+	function handleAddRecipe(event: React.MouseEvent): void {
+		event.preventDefault()
+
+		setAddRecipeError('')
+
+		if (!recipe) {
+			setAddRecipeError('No recipe selected')
+			return
+		}
+
+		setAdding(true)
+
+		addRecipe(bookID, recipe)
+			.then(recipeID => onAdd(recipeID))
+			.catch(() => setAddRecipeError('Error adding recipe'))
+			.finally(() => setAdding(false))
 	}
 
 	return (
@@ -53,7 +76,7 @@ export default function ImportRecipe(props: {
 
 			<Paper
 				component='form'
-				onSubmit={onSubmit}
+				onSubmit={handleScrape}
 				sx={{ py: 1, px: 1, mb: 2, display: 'flex', alignItems: 'center' }}
 			>
 				<InputBase
@@ -66,9 +89,9 @@ export default function ImportRecipe(props: {
 					type='submit'
 					color='primary'
 					sx={{ p: 1 }}
-					disabled={submitting}
+					disabled={scraping}
 				>
-					{submitting ? (
+					{scraping ? (
 						<CircularProgress size={24} />
 					) : (
 						<Icon>cloud_download</Icon>
@@ -76,13 +99,31 @@ export default function ImportRecipe(props: {
 				</IconButton>
 			</Paper>
 
-			{error && (
+			{scrapeError && (
 				<Alert severity='error' sx={{ mb: 2 }}>
-					{error}
+					{scrapeError}
 				</Alert>
 			)}
 
 			{recipe && <ImportPreview recipe={recipe} />}
+
+			{addRecipeError && (
+				<Alert sx={{ mt: 2 }} severity='error'>
+					{addRecipeError}
+				</Alert>
+			)}
+
+			{recipe && (
+				<LoadingButton
+					loading={adding}
+					onClick={handleAddRecipe}
+					fullWidth
+					variant='contained'
+					sx={{ mt: 2, mb: 2 }}
+				>
+					Import Recipe
+				</LoadingButton>
+			)}
 		</Box>
 	)
 }

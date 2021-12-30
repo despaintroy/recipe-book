@@ -1,12 +1,9 @@
 import React from 'react'
 
 import ImportRecipe from 'ts/containers/ImportRecipe'
-import { addRecipe } from 'ts/services/recipe'
-import { Recipe } from 'ts/utils/models'
 
 import CloseIcon from '@mui/icons-material/Close'
-import { LoadingButton } from '@mui/lab'
-import { Alert, Container, Typography } from '@mui/material'
+import { Container, Typography } from '@mui/material'
 import AppBar from '@mui/material/AppBar'
 import Dialog from '@mui/material/Dialog'
 import IconButton from '@mui/material/IconButton'
@@ -30,30 +27,6 @@ export default function AddRecipeModal(props: {
 	onAdd: (recipeID: string) => void
 }): React.ReactElement {
 	const { bookID, open, handleClose, onAdd } = props
-	const [recipe, setRecipe] = React.useState<Recipe | null>()
-	const [error, setError] = React.useState('')
-	const [submitting, setSubmitting] = React.useState(false)
-
-	function handleSubmit(event: React.MouseEvent): void {
-		event.preventDefault()
-
-		setError('')
-
-		if (!recipe) {
-			setError('No recipe selected')
-			return
-		}
-
-		setSubmitting(true)
-
-		addRecipe(bookID, recipe)
-			.then(recipeID => {
-				onAdd(recipeID)
-				handleClose()
-			})
-			.catch(() => setError('Error adding recipe'))
-			.finally(() => setSubmitting(false))
-	}
 
 	return (
 		<Dialog
@@ -81,25 +54,7 @@ export default function AddRecipeModal(props: {
 				</Toolbar>
 			</AppBar>
 			<Container maxWidth='sm' sx={{ pt: 10 }}>
-				<ImportRecipe setRecipeCallback={setRecipe} />
-
-				{error && (
-					<Alert sx={{ mt: 2 }} severity='error'>
-						{error}
-					</Alert>
-				)}
-
-				{recipe && (
-					<LoadingButton
-						loading={submitting}
-						onClick={handleSubmit}
-						fullWidth
-						variant='contained'
-						sx={{ mt: 2, mb: 2 }}
-					>
-						Import Recipe
-					</LoadingButton>
-				)}
+				<ImportRecipe bookID={bookID} onAdd={onAdd} />
 			</Container>
 		</Dialog>
 	)
