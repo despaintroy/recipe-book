@@ -11,6 +11,7 @@ import {
 	Button,
 	Icon,
 	IconButton,
+	ListItemIcon,
 	Menu,
 	MenuItem,
 	Toolbar,
@@ -90,12 +91,23 @@ export default function HeaderBar(): React.ReactElement {
 							keepMounted
 						>
 							<MenuItem component={Link} to={Paths.account} onClick={closeMenu}>
+								<ListItemIcon>
+									<Icon>account_circle</Icon>
+								</ListItemIcon>
 								Account
 							</MenuItem>
 							<MenuItem onClick={(): void => window.location.reload()}>
+								<ListItemIcon>
+									<Icon>refresh</Icon>
+								</ListItemIcon>
 								Refresh
 							</MenuItem>
-							<MenuItem onClick={signOut}>Sign Out</MenuItem>
+							<MenuItem onClick={signOut}>
+								<ListItemIcon>
+									<Icon>logout</Icon>
+								</ListItemIcon>
+								Sign Out
+							</MenuItem>
 						</Menu>
 					</div>
 				</Toolbar>
